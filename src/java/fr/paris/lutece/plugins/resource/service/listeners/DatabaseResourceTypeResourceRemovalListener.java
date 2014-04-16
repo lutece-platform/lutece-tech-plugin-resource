@@ -56,7 +56,8 @@ public class DatabaseResourceTypeResourceRemovalListener implements IDatabaseRes
     public boolean canBeRemoved( String strResourceType )
     {
         List<DatabaseResource> listResources = DatabaseResourceHome.findByResourceType( strResourceType );
-        return listResources == null || listResources.size( ) == 0;
+
+        return ( listResources == null ) || ( listResources.size(  ) == 0 );
     }
 
     /**
@@ -67,5 +68,4 @@ public class DatabaseResourceTypeResourceRemovalListener implements IDatabaseRes
     {
         return I18nService.getLocalizedString( MESSAGE_ERROR_RESOURCE_TYPE_HAS_RESOURCE, locale );
     }
-
 }

@@ -45,17 +45,17 @@ public interface IResource extends Serializable
      * Get the id of the resource
      * @return The id of the resource
      */
-    String getIdResource( );
+    String getIdResource(  );
 
     /**
      * Get the resource type
      * @return The resource type
      */
-    String getResourceType( );
+    String getResourceType(  );
 
     /**
      * Get the resource name
      * @return The resource name
      */
-    String getResourceName( );
+    String getResourceName(  );
 }

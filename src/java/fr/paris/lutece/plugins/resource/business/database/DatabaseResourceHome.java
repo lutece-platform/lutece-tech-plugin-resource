@@ -53,7 +53,7 @@ public final class DatabaseResourceHome
     /**
      * Default constructor
      */
-    private DatabaseResourceHome( )
+    private DatabaseResourceHome(  )
     {
         // Nothing to do
     }
@@ -65,8 +65,9 @@ public final class DatabaseResourceHome
     public static void create( DatabaseResource resource )
     {
         _dao.insert( resource, _plugin );
-        ResourceCacheService.getInstance( ).putInCache(
-                ResourceCacheService.getResourceCacheKey( resource.getIdResource( ) ), resource.clone( ) );
+        ResourceCacheService.getInstance(  )
+                            .putInCache( ResourceCacheService.getResourceCacheKey( resource.getIdResource(  ) ),
+            resource.clone(  ) );
     }
 
     /**
@@ -76,8 +77,9 @@ public final class DatabaseResourceHome
     public static void update( DatabaseResource resource )
     {
         _dao.update( resource, _plugin );
-        ResourceCacheService.getInstance( ).putInCache(
-                ResourceCacheService.getResourceCacheKey( resource.getIdResource( ) ), resource.clone( ) );
+        ResourceCacheService.getInstance(  )
+                            .putInCache( ResourceCacheService.getResourceCacheKey( resource.getIdResource(  ) ),
+            resource.clone(  ) );
     }
 
     /**
@@ -87,8 +89,8 @@ public final class DatabaseResourceHome
     public static void delete( int nIdResource )
     {
         _dao.delete( nIdResource, _plugin );
-        ResourceCacheService.getInstance( ).removeKey(
-                ResourceCacheService.getResourceCacheKey( Integer.toString( nIdResource ) ) );
+        ResourceCacheService.getInstance(  )
+                            .removeKey( ResourceCacheService.getResourceCacheKey( Integer.toString( nIdResource ) ) );
     }
 
     /**
@@ -99,15 +101,16 @@ public final class DatabaseResourceHome
     public static DatabaseResource findByPrimaryKey( int nIdResource )
     {
         String strCacheKey = ResourceCacheService.getResourceCacheKey( Integer.toString( nIdResource ) );
-        DatabaseResource resource = (DatabaseResource) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
+        DatabaseResource resource = (DatabaseResource) ResourceCacheService.getInstance(  ).getFromCache( strCacheKey );
+
         if ( resource == null )
         {
             resource = _dao.findByPrimaryKey( nIdResource, _plugin );
-            ResourceCacheService.getInstance( ).putInCache( strCacheKey, resource.clone( ) );
+            ResourceCacheService.getInstance(  ).putInCache( strCacheKey, resource.clone(  ) );
         }
         else
         {
-            resource = resource.clone( );
+            resource = resource.clone(  );
         }
 
         return resource;
@@ -117,7 +120,7 @@ public final class DatabaseResourceHome
      * Get the list of resources
      * @return The list of resources
      */
-    public static List<DatabaseResource> findAll( )
+    public static List<DatabaseResource> findAll(  )
     {
         return _dao.findAll( _plugin );
     }
@@ -153,5 +156,4 @@ public final class DatabaseResourceHome
     {
         return _dao.findByResourceType( strResourceType, _plugin );
     }
-
 }

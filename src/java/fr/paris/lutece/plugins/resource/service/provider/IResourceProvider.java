@@ -48,7 +48,7 @@ public interface IResourceProvider
      * Get the list of resource types managed by this provider
      * @return The list of resource types managed by this provider
      */
-    List<IResourceType> getResourceTypeList( );
+    List<IResourceType> getResourceTypeList(  );
 
     /**
      * Check if a resource type is managed by this provider
@@ -74,7 +74,7 @@ public interface IResourceProvider
      * @return The list of resources, or an empty list if no resource is
      *         associated with this provider
      */
-    List<IResource> getListResources( );
+    List<IResource> getListResources(  );
 
     /**
      * Get the list of resources managed by this provider that have a given

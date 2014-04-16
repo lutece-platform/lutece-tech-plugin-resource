@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.resource.business;
 
+
 /**
  * Interface for resource types
  */
@@ -43,12 +44,12 @@ public interface IResourceType
      * unique and id used as a primary key.
      * @return the name of the resource type
      */
-    String getResourceTypeName( );
+    String getResourceTypeName(  );
 
     /**
      * Get the description of the resource type. The description is used to be
      * displayed to users.
      * @return The description of the resource type
      */
-    String getResourceTypeDescription( );
+    String getResourceTypeDescription(  );
 }

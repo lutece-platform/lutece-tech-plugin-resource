@@ -42,27 +42,25 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 public class ResourceCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "resource.resourceCacheService";
-
     private static final String CACHE_KEY_RESOURCE_TYPE_PROVIDER = "resource.provider.resourceType.";
     private static final String CACHE_KEY_RESOURCE_TYPE_LIST = "resource.resourceTypes.list";
     private static final String CACHE_KEY_RESOURCE = "resource.resource.";
     private static final String CACHE_KEY_RESOURCE_TYPE = "resource.resourceType.";
-
-    private static final ResourceCacheService _instance = new ResourceCacheService( );
+    private static final ResourceCacheService _instance = new ResourceCacheService(  );
 
     /**
      * Default constructor
      */
-    private ResourceCacheService( )
+    private ResourceCacheService(  )
     {
-        initCache( );
+        initCache(  );
     }
 
     /**
      * Get the instance of the service
      * @return The instance of the service
      */
-    public static ResourceCacheService getInstance( )
+    public static ResourceCacheService getInstance(  )
     {
         return _instance;
     }
@@ -71,7 +69,7 @@ public class ResourceCacheService extends AbstractCacheableService
      * {@inheritDoc}
      */
     @Override
-    public String getName( )
+    public String getName(  )
     {
         return CACHE_SERVICE_NAME;
     }
@@ -92,7 +90,7 @@ public class ResourceCacheService extends AbstractCacheableService
      * Get the cache key for the list of resource types
      * @return The cache key for the list of resource types
      */
-    public static String getResourceTypesListCacheKey( )
+    public static String getResourceTypesListCacheKey(  )
     {
         return CACHE_KEY_RESOURCE_TYPE_LIST;
     }

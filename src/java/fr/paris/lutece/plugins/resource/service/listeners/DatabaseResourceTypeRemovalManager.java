@@ -46,7 +46,7 @@ public final class DatabaseResourceTypeRemovalManager
     /**
      * Default constructor
      */
-    private DatabaseResourceTypeRemovalManager( )
+    private DatabaseResourceTypeRemovalManager(  )
     {
         // Private constructor
     }
@@ -60,14 +60,15 @@ public final class DatabaseResourceTypeRemovalManager
      */
     public static String canResourceTypeBeRemoved( String strResourceType, Locale locale )
     {
-        for ( IDatabaseResourceTypeRemovalListener listener : SpringContextService
-                .getBeansOfType( IDatabaseResourceTypeRemovalListener.class ) )
+        for ( IDatabaseResourceTypeRemovalListener listener : SpringContextService.getBeansOfType( 
+                IDatabaseResourceTypeRemovalListener.class ) )
         {
             if ( !listener.canBeRemoved( strResourceType ) )
             {
                 return listener.getRemovalRefusedMessage( strResourceType, locale );
             }
         }
+
         return null;
     }
 }

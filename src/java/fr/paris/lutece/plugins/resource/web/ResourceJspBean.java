@@ -113,7 +113,6 @@ public class ResourceJspBean extends MVCAdminJspBean
     private static final String TEMPLATE_MANAGE_RESOURCES = "admin/plugins/resource/manage_resources.html";
     private static final String TEMPLATE_CREATE_RESOURCE = "admin/plugins/resource/create_resource.html";
     private static final String TEMPLATE_MODIFY_RESOURCE = "admin/plugins/resource/modify_resource.html";
-
     private String _strSort;
     private boolean _bSortAsc;
     private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_ITEMS_PER_PAGE, 10 );
@@ -139,6 +138,7 @@ public class ResourceJspBean extends MVCAdminJspBean
         {
             _strSort = strSort;
         }
+
         if ( StringUtils.isNotEmpty( strSortAsc ) )
         {
             _bSortAsc = Boolean.parseBoolean( strSortAsc );
@@ -159,23 +159,23 @@ public class ResourceJspBean extends MVCAdminJspBean
         Paginator<Integer> paginatorIds = new Paginator<Integer>( listResourcesId, _nItemsPerPage, strViewUrl,
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-        DelegatePaginator<DatabaseResource> paginatorItems = new LocalizedDelegatePaginator<DatabaseResource>(
-                DatabaseResourceHome.findByListId( paginatorIds.getPageItems( ), resourceSort ), _nItemsPerPage,
-                strViewUrl, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, paginatorIds.getItemsCount( ),
-                getLocale( ) );
+        DelegatePaginator<DatabaseResource> paginatorItems = new LocalizedDelegatePaginator<DatabaseResource>( DatabaseResourceHome.findByListId( 
+                    paginatorIds.getPageItems(  ), resourceSort ), _nItemsPerPage, strViewUrl,
+                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, paginatorIds.getItemsCount(  ), getLocale(  ) );
 
         // We get the reference list of resource types
-        ReferenceList refListItems = new ReferenceList( );
-        for ( DatabaseResourceType resourceType : DatabaseResourceTypeHome.findAll( ) )
+        ReferenceList refListItems = new ReferenceList(  );
+
+        for ( DatabaseResourceType resourceType : DatabaseResourceTypeHome.findAll(  ) )
         {
-            refListItems.addItem( resourceType.getResourceTypeName( ), resourceType.getResourceTypeDescription( ) );
+            refListItems.addItem( resourceType.getResourceTypeName(  ), resourceType.getResourceTypeDescription(  ) );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         model.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginatorItems );
-        model.put( MARK_LIST_RESOURCES, paginatorItems.getPageItems( ) );
+        model.put( MARK_LIST_RESOURCES, paginatorItems.getPageItems(  ) );
         model.put( MARK_REFERENCE_LIST_RESOURCE_TYPES, refListItems );
         fillCommons( model );
 
@@ -190,8 +190,9 @@ public class ResourceJspBean extends MVCAdminJspBean
     @View( value = VIEW_CREATE_RESOURCE )
     public String getCreateResource( HttpServletRequest request )
     {
-        String strResourceType = _resource != null ? _resource.getResourceType( ) : request
-                .getParameter( MARK_RESOURCE_TYPE );
+        String strResourceType = ( _resource != null ) ? _resource.getResourceType(  )
+                                                       : request.getParameter( MARK_RESOURCE_TYPE );
+
         if ( StringUtils.isEmpty( strResourceType ) )
         {
             return redirectView( request, VIEW_MANAGE_RESOURCES );
@@ -199,11 +200,12 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         DatabaseResourceType databaseResourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_RESOURCE_TYPE, databaseResourceType );
         model.put( MARK_RESOURCE, _resource );
         fillCommons( model );
         _resource = null;
+
         return getPage( MESSAGE_CREATE_RESOURCE_PAGE_TITLE, TEMPLATE_CREATE_RESOURCE, model );
     }
 
@@ -215,7 +217,7 @@ public class ResourceJspBean extends MVCAdminJspBean
     @Action( value = ACTION_DO_CREATE_RESOURCE )
     public String doCreateResource( HttpServletRequest request )
     {
-        DatabaseResource resource = new DatabaseResource( );
+        DatabaseResource resource = new DatabaseResource(  );
 
         populate( resource, request );
 
@@ -228,7 +230,7 @@ public class ResourceJspBean extends MVCAdminJspBean
         DatabaseResourceHome.create( resource );
         _resource = null;
 
-        addInfo( MESSAGE_RESOURCE_CREATED, getLocale( ) );
+        addInfo( MESSAGE_RESOURCE_CREATED, getLocale(  ) );
 
         return redirectView( request, VIEW_MANAGE_RESOURCES );
     }
@@ -241,19 +243,22 @@ public class ResourceJspBean extends MVCAdminJspBean
     @View( value = VIEW_MODIFY_RESOURCE )
     public String getModifyResource( HttpServletRequest request )
     {
-        String strIdResource = _resource != null ? _resource.getIdResource( ) : request
-                .getParameter( PARAMETER_ID_RESOURCE );
+        String strIdResource = ( _resource != null ) ? _resource.getIdResource(  )
+                                                     : request.getParameter( PARAMETER_ID_RESOURCE );
+
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
             return redirectView( request, VIEW_MANAGE_RESOURCES );
         }
 
-        DatabaseResource databaseResource = _resource != null ? _resource : DatabaseResourceHome
-                .findByPrimaryKey( Integer.parseInt( strIdResource ) );
+        DatabaseResource databaseResource = ( _resource != null ) ? _resource
+                                                                  : DatabaseResourceHome.findByPrimaryKey( Integer.parseInt( 
+                    strIdResource ) );
         _resource = null;
-        Map<String, Object> model = new HashMap<String, Object>( );
+
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_RESOURCE, databaseResource );
-        model.put( MARK_RESOURCE_TYPE, DatabaseResourceTypeHome.findByPrimaryKey( databaseResource.getResourceType( ) ) );
+        model.put( MARK_RESOURCE_TYPE, DatabaseResourceTypeHome.findByPrimaryKey( databaseResource.getResourceType(  ) ) );
         fillCommons( model );
 
         return getPage( MESSAGE_MODIFY_RESOURCE_PAGE_TITLE, TEMPLATE_MODIFY_RESOURCE, model );
@@ -267,8 +272,9 @@ public class ResourceJspBean extends MVCAdminJspBean
     @Action( value = ACTION_DO_MODIFY_RESOURCE )
     public String doModifyResource( HttpServletRequest request )
     {
-        String strIdResource = _resource != null ? _resource.getIdResource( ) : request
-                .getParameter( PARAMETER_ID_RESOURCE );
+        String strIdResource = ( _resource != null ) ? _resource.getIdResource(  )
+                                                     : request.getParameter( PARAMETER_ID_RESOURCE );
+
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
             return redirectView( request, VIEW_MANAGE_RESOURCES );
@@ -287,7 +293,7 @@ public class ResourceJspBean extends MVCAdminJspBean
         DatabaseResourceHome.update( resource );
         _resource = null;
 
-        addInfo( MESSAGE_RESOURCE_MODIFIED, getLocale( ) );
+        addInfo( MESSAGE_RESOURCE_MODIFIED, getLocale(  ) );
 
         return redirectView( request, VIEW_MANAGE_RESOURCES );
     }
@@ -301,6 +307,7 @@ public class ResourceJspBean extends MVCAdminJspBean
     public String getConfirmRemoveResource( HttpServletRequest request )
     {
         String strIdResource = request.getParameter( PARAMETER_ID_RESOURCE );
+
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
             redirectView( request, VIEW_MANAGE_RESOURCES );
@@ -309,8 +316,9 @@ public class ResourceJspBean extends MVCAdminJspBean
         UrlItem urlItem = new UrlItem( getActionUrl( ACTION_DO_REMOVE_RESOURCE ) );
         urlItem.addParameter( PARAMETER_ID_RESOURCE, strIdResource );
 
-        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE,
-                urlItem.getUrl( ), AdminMessage.TYPE_CONFIRMATION ) );
+        return redirect( request,
+            AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE, urlItem.getUrl(  ),
+                AdminMessage.TYPE_CONFIRMATION ) );
     }
 
     /**
@@ -322,14 +330,16 @@ public class ResourceJspBean extends MVCAdminJspBean
     public String doRemoveResource( HttpServletRequest request )
     {
         String strIdResource = request.getParameter( PARAMETER_ID_RESOURCE );
+
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
             redirectView( request, VIEW_MANAGE_RESOURCES );
         }
+
         int nIdResource = Integer.parseInt( strIdResource );
         DatabaseResourceHome.delete( nIdResource );
 
-        addInfo( MESSAGE_RESOURCE_REMOVED, getLocale( ) );
+        addInfo( MESSAGE_RESOURCE_REMOVED, getLocale(  ) );
 
         return redirectView( request, VIEW_MANAGE_RESOURCES );
     }

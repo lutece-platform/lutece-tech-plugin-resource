@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.resource.business.database;
 
+
 /**
  * Database resource sort DTO
  */
@@ -41,9 +42,7 @@ public class DatabaseResourceSort
     private static final String SORT_COLUMN_ID = "id_resource";
     private static final String SORT_COLUMN_RESOURCE_TYPE = "resource_type";
     private static final String SORT_COLUMN_RESOURCE_NAME = "resource_name";
-
     private static final DatabaseResourceSort DEFAULT_SORT = new DatabaseResourceSort( SORT_COLUMN_ID, true );
-
     private String _strSort;
     private boolean _bSortAsc;
 
@@ -62,7 +61,7 @@ public class DatabaseResourceSort
      * Get the sort column name
      * @return The sort column name
      */
-    public String getSort( )
+    public String getSort(  )
     {
         return _strSort;
     }
@@ -71,7 +70,7 @@ public class DatabaseResourceSort
      * Check if the sort should be ascending or descending
      * @return True to sort ascending, false otherwise
      */
-    public boolean getSortAsc( )
+    public boolean getSortAsc(  )
     {
         return _bSortAsc;
     }
@@ -85,12 +84,12 @@ public class DatabaseResourceSort
      */
     public static DatabaseResourceSort getDatabaseResourceSort( String strSort, boolean bSortAsc )
     {
-        if ( SORT_COLUMN_ID.equals( strSort ) || SORT_COLUMN_RESOURCE_TYPE.equals( strSort )
-                || SORT_COLUMN_RESOURCE_NAME.equals( strSort ) )
+        if ( SORT_COLUMN_ID.equals( strSort ) || SORT_COLUMN_RESOURCE_TYPE.equals( strSort ) ||
+                SORT_COLUMN_RESOURCE_NAME.equals( strSort ) )
         {
             return new DatabaseResourceSort( strSort, bSortAsc );
         }
+
         return DEFAULT_SORT;
     }
-
 }

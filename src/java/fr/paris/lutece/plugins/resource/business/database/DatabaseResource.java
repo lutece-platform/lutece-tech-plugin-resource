@@ -47,7 +47,6 @@ import javax.validation.constraints.Size;
 public class DatabaseResource implements IResource, Cloneable
 {
     private static final long serialVersionUID = -6889675846023730084L;
-
     private String _strIdResource;
     @NotEmpty( message = "#i18n{resource.model.entity.databaseResource.attribute.resourceType.notEmpty}" )
     @Size( max = 255, min = 1, message = "#i18n{resource.model.entity.databaseResource.attribute.resourceType.size}" )
@@ -60,7 +59,7 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public String getIdResource( )
+    public String getIdResource(  )
     {
         return _strIdResource;
     }
@@ -78,7 +77,7 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public String getResourceType( )
+    public String getResourceType(  )
     {
         return _strResourceType;
     }
@@ -96,7 +95,7 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public String getResourceName( )
+    public String getResourceName(  )
     {
         return _strResourceName;
     }
@@ -114,16 +113,17 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public DatabaseResource clone( )
+    public DatabaseResource clone(  )
     {
         try
         {
-            return (DatabaseResource) super.clone( );
+            return (DatabaseResource) super.clone(  );
         }
         catch ( CloneNotSupportedException e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
+
         return null;
     }
 }

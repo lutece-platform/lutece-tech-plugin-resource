@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.resource.business;
 
+
 /**
  * Default implementation of resource types
  */
@@ -58,7 +59,7 @@ public class ResourceTypeDefaultImplementation implements IResourceType
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeName( )
+    public String getResourceTypeName(  )
     {
         return _strResourceTypeName;
     }
@@ -67,9 +68,8 @@ public class ResourceTypeDefaultImplementation implements IResourceType
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeDescription( )
+    public String getResourceTypeDescription(  )
     {
         return _strResourceTypeDescription;
     }
-
 }

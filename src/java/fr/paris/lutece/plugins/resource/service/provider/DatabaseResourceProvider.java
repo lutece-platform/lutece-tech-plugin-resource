@@ -53,9 +53,9 @@ public class DatabaseResourceProvider implements IResourceProvider
      */
     @Override
     @SuppressWarnings( "unchecked" )
-    public List<IResourceType> getResourceTypeList( )
+    public List<IResourceType> getResourceTypeList(  )
     {
-        return (List<IResourceType>) (List<? extends IResourceType>) DatabaseResourceTypeHome.findAll( );
+        return (List<IResourceType>) (List<?extends IResourceType>) DatabaseResourceTypeHome.findAll(  );
     }
 
     /**
@@ -64,7 +64,7 @@ public class DatabaseResourceProvider implements IResourceProvider
     @Override
     public boolean isResourceTypeManaged( String strResourceTypeName )
     {
-        return DatabaseResourceTypeHome.getResourceTypesList( ).contains( strResourceTypeName );
+        return DatabaseResourceTypeHome.getResourceTypesList(  ).contains( strResourceTypeName );
     }
 
     /**
@@ -77,6 +77,7 @@ public class DatabaseResourceProvider implements IResourceProvider
         {
             return null;
         }
+
         return DatabaseResourceHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
     }
 
@@ -85,9 +86,9 @@ public class DatabaseResourceProvider implements IResourceProvider
      */
     @Override
     @SuppressWarnings( "unchecked" )
-    public List<IResource> getListResources( )
+    public List<IResource> getListResources(  )
     {
-        return (List<IResource>) (List<? extends IResource>) DatabaseResourceHome.findAll( );
+        return (List<IResource>) (List<?extends IResource>) DatabaseResourceHome.findAll(  );
     }
 
     /**
@@ -97,7 +98,6 @@ public class DatabaseResourceProvider implements IResourceProvider
     @SuppressWarnings( "unchecked" )
     public List<IResource> getListResources( String strResourceTypeName )
     {
-        return (List<IResource>) (List<? extends IResource>) DatabaseResourceHome
-                .findByResourceType( strResourceTypeName );
+        return (List<IResource>) (List<?extends IResource>) DatabaseResourceHome.findByResourceType( strResourceTypeName );
     }
 }

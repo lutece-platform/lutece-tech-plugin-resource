@@ -50,7 +50,6 @@ import javax.validation.constraints.Size;
 public class DatabaseResourceType implements IResourceType, Serializable, Cloneable
 {
     private static final long serialVersionUID = -3153534135959473655L;
-
     @NotEmpty( message = "#i18n{resource.model.entity.databaseResourceType.attribute.resourceTypeName.notEmpty}" )
     @Size( max = 255, message = "#i18n{resource.model.entity.databaseResourceType.attribute.resourceTypeName.size}" )
     @Pattern( regexp = "[a-zA-Z0-9]*", message = "#i18n{resource.model.entity.databaseResourceType.attribute.resourceTypeName.pattern}" )
@@ -63,7 +62,7 @@ public class DatabaseResourceType implements IResourceType, Serializable, Clonea
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeName( )
+    public String getResourceTypeName(  )
     {
         return _strResourceTypeName;
     }
@@ -81,7 +80,7 @@ public class DatabaseResourceType implements IResourceType, Serializable, Clonea
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeDescription( )
+    public String getResourceTypeDescription(  )
     {
         return _strResourceTypeDescription;
     }
@@ -99,16 +98,17 @@ public class DatabaseResourceType implements IResourceType, Serializable, Clonea
      * {@inheritDoc}
      */
     @Override
-    public DatabaseResourceType clone( )
+    public DatabaseResourceType clone(  )
     {
         try
         {
-            return (DatabaseResourceType) super.clone( );
+            return (DatabaseResourceType) super.clone(  );
         }
         catch ( CloneNotSupportedException e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
+
         return null;
     }
 }
