@@ -1,0 +1,19 @@
+<div class="row-fluid">
+	<div class="span12">
+		<@messages errors=errors />
+		<form class="form-horizontal" action="jsp/admin/plugins/resource/ManageResourceTypes.jsp">
+			
+			<@fieldInputText i18nLabelKey='resource.createResourceType.labelName' i18nHelpBlockKey='resource.createResourceType.labelNameHelp' inputName='resourceTypeName' mandatory=true value=(resource_type.resourceTypeName)!'' maxlength=255 />
+			<@fieldInputText i18nLabelKey='resource.createResourceType.labelDescription' inputName='resourceTypeDescription' mandatory=true value=(resource_type.resourceTypeDescription)!'' maxlength=255 />
+			
+			<div class="form-actions">
+				<button class="btn btn-primary btn-small" name="action" value="doCreateResourceType">
+					<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelValidate}
+				</button>
+				<button class="btn btn-small" name="view" value="getManageResourceTypes">
+					<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.util.labelBack}
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><plug-in>
+    <name>resource</name>
+    <class>fr.paris.lutece.plugins.resource.service.ResourcePlugin</class>
+    <version>1.0.0</version>
+    <description>resource.plugin.description</description>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
+    <provider>resource.plugin.provider</provider>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>images/admin/skin/plugins/resource/resource.png</icon-url>
+    <copyright>Copyright 2001-2014 Mairie de Paris</copyright>
+    <core-version-dependency>
+        <min-core-version>4.3.0</min-core-version>
+        <max-core-version/>
+    </core-version-dependency>
+    <db-pool-required>1</db-pool-required>
+
+    <!-- Applications -->
+    <applications>
+    </applications>
+
+    <!-- Administration interface parameters -->
+    <admin-features>
+    	<admin-feature>
+            <feature-id>RESOURCE_MANAGEMENT</feature-id>
+            <feature-title>resource.resourceManagement.pageTitle</feature-title>
+            <feature-description>resource.resourceManagement.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/resource/ManageResources.jsp</feature-url>
+        </admin-feature>
+    </admin-features>
+
+	<portlets>
+    </portlets>
+
+	<!-- Filters -->
+	<filters>
+	</filters>
+</plug-in>

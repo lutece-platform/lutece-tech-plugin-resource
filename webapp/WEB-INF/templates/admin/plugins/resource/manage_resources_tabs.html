@@ -1,0 +1,16 @@
+<#macro tabs tab >
+    <div>
+        <ul class="nav nav-tabs">
+            <li <#if tab="resources">class="active"</#if>>
+				<a href="jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources">
+					#i18n{resource.resourceManagement.pageTitle}
+				</a>
+            </li>
+            <li <#if tab="resource_types">class="active"</#if>>
+				<a href="jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewManageResourceTypes">
+					#i18n{resource.resourceTypeManagement.pageTitle}
+				</a>
+            </li>
+        </ul>
+    </div>
+</#macro>
