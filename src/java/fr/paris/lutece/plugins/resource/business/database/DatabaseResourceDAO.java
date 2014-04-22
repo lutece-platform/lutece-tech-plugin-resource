@@ -70,6 +70,12 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     private static final String CONSTANT_COMMA = ",";
     private static final String CONSTANT_CLOSE_PARENTHESIS = ")";
 
+    /**
+     * Get a new primary key. This method should only be called by synchronized
+     * methods
+     * @param plugin The plugin
+     * @return The new value of the primary key
+     */
     private int newPrimaryKey( Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PRIMARY_KEY, plugin );

@@ -70,7 +70,6 @@ public interface IResourceProvider
 
     /**
      * Get the list of resources managed by this provider
-     * @param strResourceType The resource type
      * @return The list of resources, or an empty list if no resource is
      *         associated with this provider
      */
