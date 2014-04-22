@@ -107,7 +107,11 @@ public final class DatabaseResourceTypeHome
         if ( resourceType == null )
         {
             resourceType = _dao.findByPrimaryKey( strResourceType, _plugin );
-            ResourceCacheService.getInstance(  ).putInCache( strCacheKey, resourceType.clone(  ) );
+
+            if ( resourceType != null )
+            {
+                ResourceCacheService.getInstance(  ).putInCache( strCacheKey, resourceType.clone(  ) );
+            }
         }
         else
         {

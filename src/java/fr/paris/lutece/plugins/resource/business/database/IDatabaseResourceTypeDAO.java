@@ -46,7 +46,7 @@ public interface IDatabaseResourceTypeDAO
     /**
      * The name of the bean of the DAO
      */
-    public static final String BEAN_NAME = "resource.databaseResourceTypeDAO";
+    String BEAN_NAME = "resource.databaseResourceTypeDAO";
 
     /**
      * insert a new resource type into the database

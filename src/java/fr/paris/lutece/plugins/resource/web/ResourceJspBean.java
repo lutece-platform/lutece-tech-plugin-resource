@@ -67,12 +67,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller( controllerJsp = "ManageResources.jsp", controllerPath = "jsp/admin/plugins/resource/", right = ResourceJspBean.RIGHT_MANAGE_RESOURCES )
 public class ResourceJspBean extends MVCAdminJspBean
 {
-    private static final long serialVersionUID = -7527847344523994706L;
-
     /**
      * Right to manage resources
      */
     public static final String RIGHT_MANAGE_RESOURCES = "RESOURCE_MANAGE_RESOURCES";
+    private static final long serialVersionUID = -7527847344523994706L;
 
     // Views
     private static final String VIEW_MANAGE_RESOURCES = "viewManageResources";

@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 /**
  * Cache service for resources, resource types and resources providers
  */
-public class ResourceCacheService extends AbstractCacheableService
+public final class ResourceCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "resource.resourceCacheService";
     private static final String CACHE_KEY_RESOURCE_TYPE_PROVIDER = "resource.provider.resourceType.";

@@ -47,7 +47,7 @@ import java.util.List;
 public class ResourceService
 {
     private static final String BEAN_NAME = "resource.resourceService";
-    private static ResourceService _instance;
+    private static volatile ResourceService _instance;
 
     /**
      * Default constructor

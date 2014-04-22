@@ -37,7 +37,7 @@ package fr.paris.lutece.plugins.resource.business.database;
 /**
  * Database resource sort DTO
  */
-public class DatabaseResourceSort
+public final class DatabaseResourceSort
 {
     private static final String SORT_COLUMN_ID = "id_resource";
     private static final String SORT_COLUMN_RESOURCE_TYPE = "resource_type";
