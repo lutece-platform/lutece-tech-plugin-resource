@@ -44,8 +44,10 @@ public final class ResourceCacheService extends AbstractCacheableService
     private static final String CACHE_SERVICE_NAME = "resource.resourceCacheService";
     private static final String CACHE_KEY_RESOURCE_TYPE_PROVIDER = "resource.provider.resourceType.";
     private static final String CACHE_KEY_RESOURCE_TYPE_LIST = "resource.resourceTypes.list";
-    private static final String CACHE_KEY_RESOURCE = "resource.resource.";
+    private static final String CACHE_KEY_RESOURCE_DATABASE = "resource.resource.";
     private static final String CACHE_KEY_RESOURCE_TYPE = "resource.resourceType.";
+    private static final String CACHE_KEY_RESOURCE = "resource.resource.type.";
+    private static final String CONSTANT_POINT = ".";
     private static final ResourceCacheService _instance = new ResourceCacheService(  );
 
     /**
@@ -98,11 +100,32 @@ public final class ResourceCacheService extends AbstractCacheableService
     /**
      * Get the cache key for resources
      * @param strIdResource The id of the resource
+     * @param strResourceType The resource type
      * @return The cache key for the given resource
      */
-    public static String getResourceCacheKey( String strIdResource )
+    public static String getResourceCacheKey( String strIdResource, String strResourceType )
     {
-        return CACHE_KEY_RESOURCE + strIdResource;
+        StringBuilder sbCacheKey = new StringBuilder( CACHE_KEY_RESOURCE );
+        sbCacheKey.append( strResourceType );
+        sbCacheKey.append( CONSTANT_POINT );
+        sbCacheKey.append( strIdResource );
+
+        return sbCacheKey.toString(  );
+    }
+
+    /**
+     * Get the cache key for resources. This method should only be used to
+     * manage database resource type keys. <br />
+     * To cache resources of any other
+     * providers, use the
+     * {@link #getResourceCacheKey(String strIdResource, String strResourceType)}
+     * method.
+     * @param strIdResource The id of the resource
+     * @return The cache key for the given resource
+     */
+    public static String getDatabaseResourceCacheKey( String strIdResource )
+    {
+        return CACHE_KEY_RESOURCE_DATABASE + strIdResource;
     }
 
     /**
