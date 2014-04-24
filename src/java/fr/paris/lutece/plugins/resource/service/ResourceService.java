@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.resource.service;
 
+import fr.paris.lutece.plugins.resource.business.IResource;
 import fr.paris.lutece.plugins.resource.business.IResourceType;
 import fr.paris.lutece.plugins.resource.service.provider.IResourceProvider;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -52,7 +53,7 @@ public class ResourceService
     /**
      * Default constructor
      */
-    private ResourceService(  )
+    private ResourceService( )
     {
         // Private constructor
     }
@@ -61,7 +62,7 @@ public class ResourceService
      * Get the instance of the service
      * @return The instance of the service
      */
-    public static ResourceService getInstance(  )
+    public static ResourceService getInstance( )
     {
         if ( _instance == null )
         {
@@ -75,25 +76,25 @@ public class ResourceService
      * Get the list of available resource types
      * @return The list of available resource types
      */
-    public List<IResourceType> getResourceTypesList(  )
+    public List<IResourceType> getResourceTypesList( )
     {
-        String strCacheKey = ResourceCacheService.getResourceTypesListCacheKey(  );
-        List<IResourceType> listResourceTypes = (List<IResourceType>) ResourceCacheService.getInstance(  )
-                                                                                          .getFromCache( strCacheKey );
+        String strCacheKey = ResourceCacheService.getResourceTypesListCacheKey( );
+        List<IResourceType> listResourceTypes = (List<IResourceType>) ResourceCacheService.getInstance( ).getFromCache(
+                strCacheKey );
 
         if ( listResourceTypes != null )
         {
             return listResourceTypes;
         }
 
-        listResourceTypes = new ArrayList<IResourceType>(  );
+        listResourceTypes = new ArrayList<IResourceType>( );
 
         for ( IResourceProvider provider : SpringContextService.getBeansOfType( IResourceProvider.class ) )
         {
-            listResourceTypes.addAll( provider.getResourceTypeList(  ) );
+            listResourceTypes.addAll( provider.getResourceTypeList( ) );
         }
 
-        ResourceCacheService.getInstance(  ).putInCache( strCacheKey, listResourceTypes );
+        ResourceCacheService.getInstance( ).putInCache( strCacheKey, listResourceTypes );
 
         return listResourceTypes;
     }
@@ -116,7 +117,7 @@ public class ResourceService
      */
     public void resourceTypeCreated( String strResourceTypeName )
     {
-        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
+        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
@@ -126,9 +127,41 @@ public class ResourceService
      */
     public void resourceTypeRemoved( String strResourceTypeName )
     {
-        ResourceCacheService.getInstance(  )
-                            .removeKey( ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName ) );
-        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
+        ResourceCacheService.getInstance( ).removeKey(
+                ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName ) );
+        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
+    }
+
+    /**
+     * Get a resource from its id and type
+     * @param strIdResource the id of the resource to get
+     * @param strResourceTypeName the type of the resource to get
+     * @return The resource, or null if the resource could not be found
+     */
+    public IResource getResource( String strIdResource, String strResourceTypeName )
+    {
+        IResourceProvider provider = getResourceProvider( strResourceTypeName );
+        if ( provider != null )
+        {
+            return provider.getResource( strIdResource, strResourceTypeName );
+        }
+        return null;
+    }
+
+    /**
+     * Get the list of resources of a given type
+     * @param strResourceTypeName the resource type
+     * @return the list of resource of the given type, or an empty list if not
+     *         resource was found
+     */
+    public List<IResource> getListResources( String strResourceTypeName )
+    {
+        IResourceProvider resourceProvider = getResourceProvider( strResourceTypeName );
+        if ( resourceProvider != null )
+        {
+            return resourceProvider.getListResources( strResourceTypeName );
+        }
+        return new ArrayList<IResource>( 0 );
     }
 
     /**
@@ -140,7 +173,7 @@ public class ResourceService
     public IResourceProvider getResourceProvider( String strResourceTypeName )
     {
         String strCacheKey = ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName );
-        IResourceProvider provider = (IResourceProvider) ResourceCacheService.getInstance(  ).getFromCache( strCacheKey );
+        IResourceProvider provider = (IResourceProvider) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
 
         if ( provider != null )
         {
@@ -151,7 +184,7 @@ public class ResourceService
         {
             if ( resourceProvider.isResourceTypeManaged( strResourceTypeName ) )
             {
-                ResourceCacheService.getInstance(  ).putInCache( strCacheKey, resourceProvider );
+                ResourceCacheService.getInstance( ).putInCache( strCacheKey, resourceProvider );
 
                 return resourceProvider;
             }
