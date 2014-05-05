@@ -38,8 +38,10 @@ import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceHome;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceSort;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceType;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHome;
+import fr.paris.lutece.plugins.resource.service.IResourceAction;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -100,6 +102,7 @@ public class ResourceJspBean extends MVCAdminJspBean
     private static final String MARK_RESOURCE = "resource";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_ITEMS_PER_PAGE = "nb_items_per_page";
+    private static final String MARK_LIST_ACTIONS = "list_actions";
 
     // Parameters
     private static final String PARAMETER_ID_RESOURCE = "idResource";
@@ -176,6 +179,7 @@ public class ResourceJspBean extends MVCAdminJspBean
         model.put( MARK_PAGINATOR, paginatorItems );
         model.put( MARK_LIST_RESOURCES, paginatorItems.getPageItems(  ) );
         model.put( MARK_REFERENCE_LIST_RESOURCE_TYPES, refListItems );
+        model.put( MARK_LIST_ACTIONS, SpringContextService.getBeansOfType( IResourceAction.class ) );
         fillCommons( model );
 
         return getPage( MESSAGE_RESOURCE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCES, model );

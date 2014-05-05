@@ -75,6 +75,15 @@
 											<a class="btn btn-small btn-primary" href="jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource}" title="#i18n{portal.util.labelModify}">
 												<i class="icon-edit icon-white">&nbsp;</i>
 											</a>
+											<#if list_actions??>
+												<#list list_actions as action>
+													<#if action.canActionBePerformed( resource.idResource, resource.resourceType ) >
+														<a href="${action.getActionUrl( resource.idResource, resource.resourceType )}" title="${action.title}" >
+															<i class="${action.icon}">&nbsp;</i>
+														</a>
+													</#if>
+												</#list>
+											</#if>
 											<a class="btn btn-small btn-danger" href="jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource}" title="#i18n{portal.util.labelDelete}">
 												<i class="icon-trash icon-white">&nbsp;</i>
 											</a>
