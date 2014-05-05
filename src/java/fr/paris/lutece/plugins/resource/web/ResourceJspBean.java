@@ -103,6 +103,7 @@ public class ResourceJspBean extends MVCAdminJspBean
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_LIST_ACTIONS = "list_actions";
+    private static final String MARK_LOCALE = "locale";
 
     // Parameters
     private static final String PARAMETER_ID_RESOURCE = "idResource";
@@ -180,6 +181,7 @@ public class ResourceJspBean extends MVCAdminJspBean
         model.put( MARK_LIST_RESOURCES, paginatorItems.getPageItems(  ) );
         model.put( MARK_REFERENCE_LIST_RESOURCE_TYPES, refListItems );
         model.put( MARK_LIST_ACTIONS, SpringContextService.getBeansOfType( IResourceAction.class ) );
+        model.put( MARK_LOCALE, getLocale(  ) );
         fillCommons( model );
 
         return getPage( MESSAGE_RESOURCE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCES, model );

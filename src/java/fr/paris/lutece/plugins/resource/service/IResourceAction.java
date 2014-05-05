@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.resource.service;
 
+import java.util.Locale;
+
 
 /**
  * Interface for action to apply on resources <br />
@@ -60,13 +62,18 @@ public interface IResourceAction
 
     /**
      * Get the CSS class to display the icon of the action
+     * @param strIdResource The id of the resource
+     * @param strResourceType The resource type
      * @return the CSS class to display the icon of the action
      */
-    String getIcon(  );
+    String getIcon( String strIdResource, String strResourceType );
 
     /**
      * Get the title of the action
+     * @param strIdResource The id of the resource
+     * @param strResourceType The resource type
+     * @param locale The locale
      * @return The title of the action
      */
-    String getTitle(  );
+    String getTitle( String strIdResource, String strResourceType, Locale locale );
 }
