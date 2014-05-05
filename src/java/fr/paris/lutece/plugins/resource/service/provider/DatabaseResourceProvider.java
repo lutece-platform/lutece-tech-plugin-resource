@@ -86,16 +86,6 @@ public class DatabaseResourceProvider implements IResourceProvider
      */
     @Override
     @SuppressWarnings( "unchecked" )
-    public List<IResource> getListResources(  )
-    {
-        return (List<IResource>) (List<?extends IResource>) DatabaseResourceHome.findAll(  );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @SuppressWarnings( "unchecked" )
     public List<IResource> getListResources( String strResourceTypeName )
     {
         return (List<IResource>) (List<?extends IResource>) DatabaseResourceHome.findByResourceType( strResourceTypeName );

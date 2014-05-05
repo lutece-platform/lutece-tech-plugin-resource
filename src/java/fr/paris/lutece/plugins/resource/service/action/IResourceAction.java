@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.resource.service;
+package fr.paris.lutece.plugins.resource.service.action;
 
 import java.util.Locale;
 

@@ -78,8 +78,8 @@
 											<#if list_actions??>
 												<#list list_actions as action>
 													<#if action.canActionBePerformed( resource.idResource, resource.resourceType ) >
-														<a href="${action.getActionUrl( resource.idResource, resource.resourceType )}" title="${action.getTitle(resource.idResource, resource.resourceType, locale)}" >
-															<i class="${action.getIcon(resource.idResource, resource.resourceType)}">&nbsp;</i>
+														<a class="btn btn-small btn-primary" href="${action.getActionUrl( resource.idResource, resource.resourceType )}" title="${action.getTitle(resource.idResource, resource.resourceType, locale)}" >
+															<i class="${action.getIcon(resource.idResource, resource.resourceType)}"></i>
 														</a>
 													</#if>
 												</#list>

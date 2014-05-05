@@ -38,7 +38,7 @@ import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceHome;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceSort;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceType;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHome;
-import fr.paris.lutece.plugins.resource.service.IResourceAction;
+import fr.paris.lutece.plugins.resource.service.action.IResourceAction;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;

@@ -69,13 +69,6 @@ public interface IResourceProvider
     IResource getResource( String strIdResource, String strResourceTypeName );
 
     /**
-     * Get the list of resources managed by this provider
-     * @return The list of resources, or an empty list if no resource is
-     *         associated with this provider
-     */
-    List<IResource> getListResources(  );
-
-    /**
      * Get the list of resources managed by this provider that have a given
      * resource type
      * @param strResourceTypeName The resource type
