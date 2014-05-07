@@ -68,6 +68,7 @@ public final class DatabaseResourceTypeHome
         ResourceCacheService.getInstance(  )
                             .putInCache( ResourceCacheService.getResourceTypeCacheKey( 
                 resourceType.getResourceTypeName(  ) ), resourceType.clone(  ) );
+        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
     }
 
     /**
@@ -80,6 +81,7 @@ public final class DatabaseResourceTypeHome
         ResourceCacheService.getInstance(  )
                             .putInCache( ResourceCacheService.getResourceTypeCacheKey( 
                 resourceType.getResourceTypeName(  ) ), resourceType.clone(  ) );
+        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
     }
 
     /**
@@ -90,6 +92,7 @@ public final class DatabaseResourceTypeHome
     {
         _dao.delete( strResourceType, _plugin );
         ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypeCacheKey( strResourceType ) );
+        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
     }
 
     /**
