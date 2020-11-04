@@ -1,25 +1,23 @@
-<div class="row-fluid">
-	<div class="span12">
-		<@messages errors=errors />
-		<form class="form-horizontal" action="jsp/admin/plugins/resource/ManageResourceTypes.jsp">
-			<div class="control-group">
-				<label class="control-label">#i18n{resource.createResourceType.labelName}</label>
-				<div class="controls">
-					<p>
-						${resource_type.resourceTypeName}
-					</p>
-				</div>
-			</div>
-			<@fieldInputText i18nLabelKey='resource.createResourceType.labelDescription' inputName='resourceTypeDescription' mandatory=true value=(resource_type.resourceTypeDescription)!'' maxlength=255 />
-			<div class="form-actions">
-				<input name="resourceTypeName" value="${resource_type.resourceTypeName}" type="hidden" >
-				<button class="btn btn-primary btn-small" name="action" value="doModifyResourceType">
-					<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelValidate}
-				</button>
-				<button class="btn btn-small" name="view" value="getManageResourceTypes">
-					<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.util.labelBack}
-				</button>
-			</div>
-		</form>
-	</div>
-</div>
+<@row>
+	<@columns>
+		<@box>
+			<@boxHeader title='#i18n{resource.resourceManagement.labelModifyResourceType}' />
+			<@boxBody>
+				<@messages errors=errors />
+				<@tform action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
+					<@formGroup labelKey='#i18n{resource.createResourceType.labelName}'>
+						<@staticText>
+							${resource_type.resourceTypeName}
+						</@staticText>
+					</@formGroup>
+					<@formGroup labelFor='resourceTypeDescription' labelKey='#i18n{resource.createResourceType.labelDescription}' mandatory=true>						<@input type='text' name='resourceTypeDescription' id='resourceTypeDescription' value=(resource_type.resourceTypeDescription)!'' maxlength=255 />					</@formGroup>
+					<@formGroup>
+						<input type='hidden' name='resourceTypeName' value='${resource_type.resourceTypeName}' />
+						<@button type='submit' name='action' value='doModifyResourceType' title='#i18n{portal.util.labelValidate}' buttonIcon='check' />
+						<@button type='submit' name='view' value='getManageResourceTypes' title='#i18n{portal.util.labelBack}' buttonIcon='times' color='btn-default' params='formnovalidate' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

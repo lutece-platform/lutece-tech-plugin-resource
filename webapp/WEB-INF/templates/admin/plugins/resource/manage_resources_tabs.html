@@ -1,6 +1,6 @@
-<#macro tabs tab >
-    <div>
-        <ul class="nav nav-tabs">
+<#macro resourceTabs tab>
+    <@tabs>
+        <@listTabs>
             <li <#if tab="resources">class="active"</#if>>
 				<a href="jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources">
 					#i18n{resource.resourceManagement.pageTitle}
@@ -11,6 +11,7 @@
 					#i18n{resource.resourceTypeManagement.pageTitle}
 				</a>
             </li>
-        </ul>
-    </div>
+        </@listTabs>
+		<#nested>
+    </@tabs>
 </#macro>
