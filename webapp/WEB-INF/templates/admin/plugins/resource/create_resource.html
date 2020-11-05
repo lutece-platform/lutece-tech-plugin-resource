@@ -13,9 +13,9 @@
 					</@formGroup>
 						
 					<@formGroup>
-						<input type='hidden' name='resourceType' value='${resource_type.resourceTypeName}' />
+						<@input type='hidden' name='resourceType' value='${resource_type.resourceTypeName}' />
 						<@button type='submit' name='action' value='doCreateResource' title='#i18n{portal.util.labelValidate}' buttonIcon='check' />
-						<@button type='submit' name='view' value='getManageResources' title='#i18n{portal.util.labelBack}' buttonIcon='times' color='btn-default' params='formnovalidate' />
+						<@button type='submit' name='view' value='getManageResources' title='#i18n{portal.util.labelBack}' buttonIcon='times' cancel=true />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

@@ -1,17 +1,11 @@
 <#macro resourceTabs tab>
     <@tabs>
-        <@listTabs>
-            <li <#if tab="resources">class="active"</#if>>
-				<a href="jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources">
-					#i18n{resource.resourceManagement.pageTitle}
-				</a>
-            </li>
-            <li <#if tab="resource_types">class="active"</#if>>
-				<a href="jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewManageResourceTypes">
-					#i18n{resource.resourceTypeManagement.pageTitle}
-				</a>
-            </li>
-        </@listTabs>
+        <@tabList>
+			<#if tab='resources'><#assign active=true /><#else><#assign active=false /></#if>
+			<@tabLink href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' title='#i18n{resource.resourceManagement.pageTitle}' active=active />
+			<#if tab='resource_types'><#assign active=true /><#else><#assign active=false /></#if>
+            <@tabLink href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewManageResourceTypes' title='#i18n{resource.resourceTypeManagement.pageTitle}' active=active />
+        </@tabList>
 		<#nested>
     </@tabs>
 </#macro>

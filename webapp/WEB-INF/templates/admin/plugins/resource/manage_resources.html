@@ -5,22 +5,21 @@
 		<@resourceTabs tab='resources'>
 		<@tabContent>
 			<#if refListResourceTypes?? && refListResourceTypes?has_content>
-				<@tform class='form-inline pull-right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
-					<input type='hidden' name='view' value='viewCreateResource' />
+				<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
+					<@input type='hidden' name='view' value='viewCreateResource' />
 					<@formGroup formStyle='inline' labelFor='resource_type' labelKey='#i18n{resource.resourceManagement.labelResourceType}'>
 						<@inputGroup>
 							<@select name='resource_type' items=refListResourceTypes default_value='' size='sm' />
 							<@inputGroupItem>
-								<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceManagement.labelAddResource}' showTitle=false buttonIcon='check' size='sm' />
+								<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceManagement.labelAddResource}' hideTitle=['all'] buttonIcon='check' size='sm' />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
 			</#if>
 
-			<legend class="sr-only">#i18n{resource.resourceManagement.pageTitle}</legend>
-			
 			<div style="clear:both;"></div>
+			<legend class="sr-only">#i18n{resource.resourceManagement.pageTitle}</legend>
 			
 			<#if listResources?? && listResources?has_content>
 				<@table params='style="clear:both;"'>
@@ -69,7 +68,7 @@
 									</#if>
 								</td>
 								<td>
-									<@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelModify}' showTitle=false buttonIcon='edit' size='sm' />
+									<@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
 									<#if list_actions??>
 										<#list list_actions as action>
 											<#if action.canActionBePerformed( resource.idResource, resource.resourceType ) >
@@ -77,7 +76,7 @@
 											</#if>
 										</#list>
 									</#if>
-									<@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelDelete}' showTitle=false buttonIcon='trash' color='btn-danger' size='sm' />
+									<@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
 								</td>
 							</tr>
 						</#list>

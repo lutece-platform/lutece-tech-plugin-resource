@@ -4,8 +4,8 @@
 		<@messages infos=infos errors=errors />
 		<@resourceTabs tab="resource_types">
 		<@tabContent>
-			<@tform class='form-inline pull-right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
-				<input type='hidden' name='view' value='viewCreateResourceType'>
+			<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
+				<@input type='hidden' name='view' value='viewCreateResourceType' />
 				<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' buttonIcon='plus' />
 			</@tform>
 			
@@ -37,8 +37,8 @@
 									${resource_type.resourceTypeDescription}
 								</td>
 								<td>
-									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewModifyResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' showTitle=false size='sm' />
-									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewConfirmRemoveResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelDelete}' showTitle=false buttonIcon='trash' color='btn-danger' size='sm' />
+									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewModifyResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' hideTitle=['all'] size='sm' />
+									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewConfirmRemoveResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
 								</td>
 							</tr>
 						</#list>

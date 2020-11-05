@@ -12,9 +12,9 @@
 					</@formGroup>
 					<@formGroup labelFor='resourceTypeDescription' labelKey='#i18n{resource.createResourceType.labelDescription}' mandatory=true>						<@input type='text' name='resourceTypeDescription' id='resourceTypeDescription' value=(resource_type.resourceTypeDescription)!'' maxlength=255 />					</@formGroup>
 					<@formGroup>
-						<input type='hidden' name='resourceTypeName' value='${resource_type.resourceTypeName}' />
+						<@input type='hidden' name='resourceTypeName' value='${resource_type.resourceTypeName}' />
 						<@button type='submit' name='action' value='doModifyResourceType' title='#i18n{portal.util.labelValidate}' buttonIcon='check' />
-						<@button type='submit' name='view' value='getManageResourceTypes' title='#i18n{portal.util.labelBack}' buttonIcon='times' color='btn-default' params='formnovalidate' />
+						<@button type='submit' name='view' value='getManageResourceTypes' title='#i18n{portal.util.labelBack}' buttonIcon='times' cancel=true />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
