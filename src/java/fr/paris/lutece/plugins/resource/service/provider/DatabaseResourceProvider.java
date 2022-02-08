@@ -38,7 +38,7 @@ import fr.paris.lutece.plugins.resource.business.IResourceType;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceHome;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHome;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 

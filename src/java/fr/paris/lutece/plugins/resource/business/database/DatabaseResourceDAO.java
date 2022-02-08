@@ -78,21 +78,20 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
      */
     private int newPrimaryKey( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PRIMARY_KEY, plugin );
-        daoUtil.executeQuery(  );
-
         int nRes;
-
-        if ( daoUtil.next(  ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PRIMARY_KEY, plugin ) )
         {
-            nRes = daoUtil.getInt( 1 ) + 1;
+            daoUtil.executeQuery(  );
+    
+            if ( daoUtil.next(  ) )
+            {
+                nRes = daoUtil.getInt( 1 ) + 1;
+            }
+            else
+            {
+                nRes = 1;
+            }
         }
-        else
-        {
-            nRes = 1;
-        }
-
-        daoUtil.free(  );
 
         return nRes;
     }
@@ -106,13 +105,14 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
         int nId = newPrimaryKey( plugin );
         resource.setIdResource( nId );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_RESOURCE, plugin );
-        int nIndex = 1;
-        daoUtil.setInt( nIndex++, nId );
-        daoUtil.setString( nIndex++, resource.getResourceType(  ) );
-        daoUtil.setString( nIndex, resource.getResourceName(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_RESOURCE, plugin ) )
+        {
+            int nIndex = 1;
+            daoUtil.setInt( nIndex++, nId );
+            daoUtil.setString( nIndex++, resource.getResourceType(  ) );
+            daoUtil.setString( nIndex, resource.getResourceName(  ) );
+            daoUtil.executeUpdate(  );
+        }
     }
 
     /**
@@ -121,23 +121,21 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public void update( DatabaseResource resource, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_RESOURCE, plugin );
-        int nIndex = 1;
-
-        try
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_RESOURCE, plugin ) )
         {
-            daoUtil.setString( nIndex++, resource.getResourceType(  ) );
-            daoUtil.setString( nIndex++, resource.getResourceName(  ) );
-            daoUtil.setInt( nIndex, Integer.parseInt( resource.getIdResource(  ) ) );
-            daoUtil.executeUpdate(  );
-        }
-        catch ( NumberFormatException e )
-        {
-            AppLogService.error( e.getMessage(  ), e );
-        }
-        finally
-        {
-            daoUtil.free(  );
+            int nIndex = 1;
+            
+            try
+            {
+                daoUtil.setString( nIndex++, resource.getResourceType(  ) );
+                daoUtil.setString( nIndex++, resource.getResourceName(  ) );
+                daoUtil.setInt( nIndex, Integer.parseInt( resource.getIdResource(  ) ) );
+                daoUtil.executeUpdate(  );
+            }
+            catch ( NumberFormatException e )
+            {
+                AppLogService.error( e.getMessage(  ), e );
+            }
         }
     }
 
@@ -147,10 +145,11 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public void delete( int nIdResource, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_RESOURCE, plugin );
-        daoUtil.setInt( 1, nIdResource );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_RESOURCE, plugin ) )
+        {
+            daoUtil.setInt( 1, nIdResource );
+            daoUtil.executeUpdate(  );
+        }
     }
 
     /**
@@ -159,18 +158,17 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public DatabaseResource findByPrimaryKey( int nIdResource, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_BY_ID, plugin );
-        daoUtil.setInt( 1, nIdResource );
-        daoUtil.executeQuery(  );
-
         DatabaseResource resource = null;
-
-        if ( daoUtil.next(  ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_BY_ID, plugin ) )
         {
-            resource = getResourceFromDAO( daoUtil );
+            daoUtil.setInt( 1, nIdResource );
+            daoUtil.executeQuery(  );
+    
+            if ( daoUtil.next(  ) )
+            {
+                resource = getResourceFromDAO( daoUtil );
+            }
         }
-
-        daoUtil.free(  );
 
         return resource;
     }
@@ -181,17 +179,16 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public List<DatabaseResource> findAll( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE, plugin );
-        daoUtil.executeQuery(  );
-
-        List<DatabaseResource> listResources = new ArrayList<DatabaseResource>(  );
-
-        while ( daoUtil.next(  ) )
+        List<DatabaseResource> listResources = new ArrayList<>(  );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE, plugin ) )
         {
-            listResources.add( getResourceFromDAO( daoUtil ) );
+            daoUtil.executeQuery(  );
+    
+            while ( daoUtil.next(  ) )
+            {
+                listResources.add( getResourceFromDAO( daoUtil ) );
+            }
         }
-
-        daoUtil.free(  );
 
         return listResources;
     }
@@ -202,22 +199,21 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public List<Integer> findAllId( DatabaseResourceSort resourceSort, Plugin plugin )
     {
+        List<Integer> listResourcesId = new ArrayList<>(  );
         StringBuilder sbSql = new StringBuilder( SQL_QUERY_SELECT_RESOURCE_ID );
         sbSql.append( ORDER_BY );
         sbSql.append( resourceSort.getSort(  ) );
         sbSql.append( resourceSort.getSortAsc(  ) ? ORDER_BY_ASCENDING : ORDER_BY_DESCENDING );
 
-        DAOUtil daoUtil = new DAOUtil( sbSql.toString(  ), plugin );
-        daoUtil.executeQuery(  );
-
-        List<Integer> listResourcesId = new ArrayList<Integer>(  );
-
-        while ( daoUtil.next(  ) )
+        try( DAOUtil daoUtil = new DAOUtil( sbSql.toString(  ), plugin ) )
         {
-            listResourcesId.add( daoUtil.getInt( 1 ) );
+            daoUtil.executeQuery(  );
+    
+            while ( daoUtil.next(  ) )
+            {
+                listResourcesId.add( daoUtil.getInt( 1 ) );
+            }
         }
-
-        daoUtil.free(  );
 
         return listResourcesId;
     }
@@ -228,9 +224,9 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public List<DatabaseResource> findByListId( List<Integer> listId, DatabaseResourceSort resourceSort, Plugin plugin )
     {
-        if ( ( listId == null ) || ( listId.size(  ) == 0 ) )
+        if ( ( listId == null ) || ( listId.isEmpty( ) ) )
         {
-            return new ArrayList<DatabaseResource>(  );
+            return new ArrayList<>(  );
         }
 
         StringBuilder sbSql = new StringBuilder( SQL_QUERY_SELECT_RESOURCE_LIST_BY_ID );
@@ -251,24 +247,23 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
         sbSql.append( resourceSort.getSort(  ) );
         sbSql.append( resourceSort.getSortAsc(  ) ? ORDER_BY_ASCENDING : ORDER_BY_DESCENDING );
 
-        DAOUtil daoUtil = new DAOUtil( sbSql.toString(  ), plugin );
-        int nIndex = 1;
-
-        for ( int nId : listId )
+        List<DatabaseResource> listResources = new ArrayList<>(  );
+        try( DAOUtil daoUtil = new DAOUtil( sbSql.toString(  ), plugin ) )
         {
-            daoUtil.setInt( nIndex++, nId );
+            int nIndex = 1;
+            
+            for ( int nId : listId )
+            {
+                daoUtil.setInt( nIndex++, nId );
+            }
+    
+            daoUtil.executeQuery(  );
+    
+            while ( daoUtil.next(  ) )
+            {
+                listResources.add( getResourceFromDAO( daoUtil ) );
+            }
         }
-
-        daoUtil.executeQuery(  );
-
-        List<DatabaseResource> listResources = new ArrayList<DatabaseResource>(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            listResources.add( getResourceFromDAO( daoUtil ) );
-        }
-
-        daoUtil.free(  );
 
         return listResources;
     }
@@ -279,18 +274,17 @@ public class DatabaseResourceDAO implements IDatabaseResourceDAO
     @Override
     public List<DatabaseResource> findByResourceType( String strResourceType, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_BY_RESOURCE_TYPE, plugin );
-        daoUtil.setString( 1, strResourceType );
-        daoUtil.executeQuery(  );
-
-        List<DatabaseResource> listResources = new ArrayList<DatabaseResource>(  );
-
-        while ( daoUtil.next(  ) )
+        List<DatabaseResource> listResources = new ArrayList<>(  );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_BY_RESOURCE_TYPE, plugin ) )
         {
-            listResources.add( getResourceFromDAO( daoUtil ) );
+            daoUtil.setString( 1, strResourceType );
+            daoUtil.executeQuery(  );
+    
+            while ( daoUtil.next(  ) )
+            {
+                listResources.add( getResourceFromDAO( daoUtil ) );
+            }
         }
-
-        daoUtil.free(  );
 
         return listResources;
     }

@@ -36,8 +36,7 @@ package fr.paris.lutece.plugins.resource.business.database;
 import fr.paris.lutece.plugins.resource.business.IResource;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 

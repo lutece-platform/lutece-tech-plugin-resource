@@ -87,7 +87,7 @@ public class ResourceService
             return listResourceTypes;
         }
 
-        listResourceTypes = new ArrayList<IResourceType>(  );
+        listResourceTypes = new ArrayList<>(  );
 
         for ( IResourceProvider provider : SpringContextService.getBeansOfType( IResourceProvider.class ) )
         {
@@ -165,7 +165,7 @@ public class ResourceService
             return resourceProvider.getListResources( strResourceTypeName );
         }
 
-        return new ArrayList<IResource>( 0 );
+        return new ArrayList<>( 0 );
     }
 
     /**

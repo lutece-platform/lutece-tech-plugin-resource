@@ -57,7 +57,7 @@ public class DatabaseResourceTypeResourceRemovalListener implements IDatabaseRes
     {
         List<DatabaseResource> listResources = DatabaseResourceHome.findByResourceType( strResourceType );
 
-        return ( listResources == null ) || ( listResources.size(  ) == 0 );
+        return ( listResources == null ) || ( listResources.isEmpty( ) );
     }
 
     /**

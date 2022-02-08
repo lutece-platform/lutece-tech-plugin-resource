@@ -47,7 +47,7 @@ import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -115,7 +115,7 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        Paginator<DatabaseResourceType> paginator = new LocalizedPaginator<DatabaseResourceType>( DatabaseResourceTypeHome.findAll(  ),
+        Paginator<DatabaseResourceType> paginator = new LocalizedPaginator<>( DatabaseResourceTypeHome.findAll(  ),
                 _nItemsPerPage, getViewFullUrl( VIEW_MANAGE_RESOURCE_TYPE ), Paginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale(  ) );
 

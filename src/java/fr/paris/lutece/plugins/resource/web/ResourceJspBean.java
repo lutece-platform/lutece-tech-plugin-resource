@@ -54,7 +54,7 @@ import fr.paris.lutece.util.html.DelegatePaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -159,10 +159,10 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         String strViewUrl = getViewFullUrl( VIEW_MANAGE_RESOURCES );
 
-        Paginator<Integer> paginatorIds = new Paginator<Integer>( listResourcesId, _nItemsPerPage, strViewUrl,
+        Paginator<Integer> paginatorIds = new Paginator<>( listResourcesId, _nItemsPerPage, strViewUrl,
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-        DelegatePaginator<DatabaseResource> paginatorItems = new LocalizedDelegatePaginator<DatabaseResource>( DatabaseResourceHome.findByListId( 
+        DelegatePaginator<DatabaseResource> paginatorItems = new LocalizedDelegatePaginator<>( DatabaseResourceHome.findByListId( 
                     paginatorIds.getPageItems(  ), resourceSort ), _nItemsPerPage, strViewUrl,
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, paginatorIds.getItemsCount(  ), getLocale(  ) );
 
@@ -174,7 +174,7 @@ public class ResourceJspBean extends MVCAdminJspBean
             refListItems.addItem( resourceType.getResourceTypeName(  ), resourceType.getResourceTypeDescription(  ) );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>(  );
 
         model.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginatorItems );
@@ -205,7 +205,7 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         DatabaseResourceType databaseResourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>(  );
         model.put( MARK_RESOURCE_TYPE, databaseResourceType );
         model.put( MARK_RESOURCE, _resource );
         fillCommons( model );
@@ -261,7 +261,7 @@ public class ResourceJspBean extends MVCAdminJspBean
                     strIdResource ) );
         _resource = null;
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>(  );
         model.put( MARK_RESOURCE, databaseResource );
         model.put( MARK_RESOURCE_TYPE, DatabaseResourceTypeHome.findByPrimaryKey( databaseResource.getResourceType(  ) ) );
         fillCommons( model );
