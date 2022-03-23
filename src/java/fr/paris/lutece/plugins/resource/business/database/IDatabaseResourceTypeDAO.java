@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  * Interface of DAO of database resource type
  */
@@ -50,44 +49,59 @@ public interface IDatabaseResourceTypeDAO
 
     /**
      * insert a new resource type into the database
-     * @param resourceType The resource type to creates
-     * @param plugin The plugin
+     * 
+     * @param resourceType
+     *            The resource type to creates
+     * @param plugin
+     *            The plugin
      */
     void insert( DatabaseResourceType resourceType, Plugin plugin );
 
     /**
      * Updates a resource type
-     * @param resourceType The resource
-     * @param plugin The plugin
+     * 
+     * @param resourceType
+     *            The resource
+     * @param plugin
+     *            The plugin
      */
     void update( DatabaseResourceType resourceType, Plugin plugin );
 
     /**
      * Remove a resource type from the database
-     * @param strResourceType the name of the resource type
-     * @param plugin the plugin
+     * 
+     * @param strResourceType
+     *            the name of the resource type
+     * @param plugin
+     *            the plugin
      */
     void delete( String strResourceType, Plugin plugin );
 
     /**
      * Find a resource from its primary key
-     * @param strResourceType the id of the resource
-     * @param plugin The plugin
-     * @return The resource type, or null if no resource type has the given
-     *         primary key
+     * 
+     * @param strResourceType
+     *            the id of the resource
+     * @param plugin
+     *            The plugin
+     * @return The resource type, or null if no resource type has the given primary key
      */
     DatabaseResourceType findByPrimaryKey( String strResourceType, Plugin plugin );
 
     /**
      * Get the list of resource types
-     * @param plugin the plugin
+     * 
+     * @param plugin
+     *            the plugin
      * @return The list of resource types
      */
     List<DatabaseResourceType> findAll( Plugin plugin );
 
     /**
      * Get the list of resource type names
-     * @param plugin the plugin
+     * 
+     * @param plugin
+     *            the plugin
      * @return the list of resource type names
      */
     List<String> getResourceTypesList( Plugin plugin );

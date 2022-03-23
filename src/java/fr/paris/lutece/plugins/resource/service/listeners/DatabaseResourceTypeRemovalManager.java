@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Locale;
 
-
 /**
  * Removal manager for database resource types
  */
@@ -46,22 +45,23 @@ public final class DatabaseResourceTypeRemovalManager
     /**
      * Default constructor
      */
-    private DatabaseResourceTypeRemovalManager(  )
+    private DatabaseResourceTypeRemovalManager( )
     {
         // Private constructor
     }
 
     /**
      * Check if a resource type can be removed
-     * @param strResourceType The resource type
-     * @param locale The locale
-     * @return The error message if the resource type can not be removed, or
-     *         null if the resource type can be removed
+     * 
+     * @param strResourceType
+     *            The resource type
+     * @param locale
+     *            The locale
+     * @return The error message if the resource type can not be removed, or null if the resource type can be removed
      */
     public static String canResourceTypeBeRemoved( String strResourceType, Locale locale )
     {
-        for ( IDatabaseResourceTypeRemovalListener listener : SpringContextService.getBeansOfType( 
-                IDatabaseResourceTypeRemovalListener.class ) )
+        for ( IDatabaseResourceTypeRemovalListener listener : SpringContextService.getBeansOfType( IDatabaseResourceTypeRemovalListener.class ) )
         {
             if ( !listener.canBeRemoved( strResourceType ) )
             {

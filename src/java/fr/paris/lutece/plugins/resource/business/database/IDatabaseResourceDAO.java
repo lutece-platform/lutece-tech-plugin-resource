@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  * Interface of DAO to manage database resources
  */
@@ -50,63 +49,86 @@ public interface IDatabaseResourceDAO
 
     /**
      * insert a new resource into the database
-     * @param resource The resource to creates
-     * @param plugin The plugin
+     * 
+     * @param resource
+     *            The resource to creates
+     * @param plugin
+     *            The plugin
      */
     void insert( DatabaseResource resource, Plugin plugin );
 
     /**
      * Updates a database resource
-     * @param resource The resource
-     * @param plugin The plugin
+     * 
+     * @param resource
+     *            The resource
+     * @param plugin
+     *            The plugin
      */
     void update( DatabaseResource resource, Plugin plugin );
 
     /**
      * Remove a resource from the database
-     * @param nIdResource the id of the resource
-     * @param plugin the plugin
+     * 
+     * @param nIdResource
+     *            the id of the resource
+     * @param plugin
+     *            the plugin
      */
     void delete( int nIdResource, Plugin plugin );
 
     /**
      * Find a resource from its primary key
-     * @param nIdResource the id of the resource
-     * @param plugin The plugin
+     * 
+     * @param nIdResource
+     *            the id of the resource
+     * @param plugin
+     *            The plugin
      * @return The resource, or null if no resource has the given primary key
      */
     DatabaseResource findByPrimaryKey( int nIdResource, Plugin plugin );
 
     /**
      * Get the list of resources
-     * @param plugin the plugin
+     * 
+     * @param plugin
+     *            the plugin
      * @return The list of resources
      */
     List<DatabaseResource> findAll( Plugin plugin );
 
     /**
      * Get the list of resource ids
-     * @param resourceSort The sort parameters
-     * @param plugin The plugin
+     * 
+     * @param resourceSort
+     *            The sort parameters
+     * @param plugin
+     *            The plugin
      * @return the list of resource ids
      */
     List<Integer> findAllId( DatabaseResourceSort resourceSort, Plugin plugin );
 
     /**
      * Get the list of database resources from an id list
-     * @param listId The list of ids of resources to get
-     * @param resourceSort The sort parameters
-     * @param plugin The plugin
+     * 
+     * @param listId
+     *            The list of ids of resources to get
+     * @param resourceSort
+     *            The sort parameters
+     * @param plugin
+     *            The plugin
      * @return The list of resources
      */
     List<DatabaseResource> findByListId( List<Integer> listId, DatabaseResourceSort resourceSort, Plugin plugin );
 
     /**
      * Get the list of resources that have a given resource type
-     * @param strResourceType The resource type
-     * @param plugin The plugin
-     * @return The list of resources, or an empty list if no resource has the
-     *         given resource type
+     * 
+     * @param strResourceType
+     *            The resource type
+     * @param plugin
+     *            The plugin
+     * @return The list of resources, or an empty list if no resource has the given resource type
      */
     List<DatabaseResource> findByResourceType( String strResourceType, Plugin plugin );
 }

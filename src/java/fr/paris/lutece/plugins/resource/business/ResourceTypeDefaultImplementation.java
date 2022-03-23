@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.resource.business;
 
-
 /**
  * Default implementation of resource types
  */
@@ -44,10 +43,11 @@ public class ResourceTypeDefaultImplementation implements IResourceType
 
     /**
      * Creates a new resource type
-     * @param strResourceTypeName The name of the resource type. The name is
-     *            used as primary key and is not displayed to users.
-     * @param strResourceTypeDescription The description of the resource type.
-     *            The description is used to be displayed to users.
+     * 
+     * @param strResourceTypeName
+     *            The name of the resource type. The name is used as primary key and is not displayed to users.
+     * @param strResourceTypeDescription
+     *            The description of the resource type. The description is used to be displayed to users.
      */
     public ResourceTypeDefaultImplementation( String strResourceTypeName, String strResourceTypeDescription )
     {
@@ -59,7 +59,7 @@ public class ResourceTypeDefaultImplementation implements IResourceType
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeName(  )
+    public String getResourceTypeName( )
     {
         return _strResourceTypeName;
     }
@@ -68,7 +68,7 @@ public class ResourceTypeDefaultImplementation implements IResourceType
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeDescription(  )
+    public String getResourceTypeDescription( )
     {
         return _strResourceTypeDescription;
     }

@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Resource service
  */
@@ -53,16 +52,17 @@ public class ResourceService
     /**
      * Default constructor
      */
-    private ResourceService(  )
+    private ResourceService( )
     {
         // Private constructor
     }
 
     /**
      * Get the instance of the service
+     * 
      * @return The instance of the service
      */
-    public static ResourceService getInstance(  )
+    public static ResourceService getInstance( )
     {
         if ( _instance == null )
         {
@@ -74,36 +74,37 @@ public class ResourceService
 
     /**
      * Get the list of available resource types
+     * 
      * @return The list of available resource types
      */
-    public List<IResourceType> getResourceTypesList(  )
+    public List<IResourceType> getResourceTypesList( )
     {
-        String strCacheKey = ResourceCacheService.getResourceTypesListCacheKey(  );
-        List<IResourceType> listResourceTypes = (List<IResourceType>) ResourceCacheService.getInstance(  )
-                                                                                          .getFromCache( strCacheKey );
+        String strCacheKey = ResourceCacheService.getResourceTypesListCacheKey( );
+        List<IResourceType> listResourceTypes = (List<IResourceType>) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
 
         if ( listResourceTypes != null )
         {
             return listResourceTypes;
         }
 
-        listResourceTypes = new ArrayList<>(  );
+        listResourceTypes = new ArrayList<>( );
 
         for ( IResourceProvider provider : SpringContextService.getBeansOfType( IResourceProvider.class ) )
         {
-            listResourceTypes.addAll( provider.getResourceTypeList(  ) );
+            listResourceTypes.addAll( provider.getResourceTypeList( ) );
         }
 
-        ResourceCacheService.getInstance(  ).putInCache( strCacheKey, listResourceTypes );
+        ResourceCacheService.getInstance( ).putInCache( strCacheKey, listResourceTypes );
 
         return listResourceTypes;
     }
 
     /**
      * Check if a resource type is managed by any provider
-     * @param strResourceTypeName The resource type
-     * @return True if the resource type is managed by any provider, false
-     *         otherwise
+     * 
+     * @param strResourceTypeName
+     *            The resource type
+     * @return True if the resource type is managed by any provider, false otherwise
      */
     public boolean isResourceTypeManaged( String strResourceTypeName )
     {
@@ -111,31 +112,35 @@ public class ResourceService
     }
 
     /**
-     * Declare a resource type as created. This method is used to keep cache up
-     * to date.
-     * @param strResourceTypeName The created resource type
+     * Declare a resource type as created. This method is used to keep cache up to date.
+     * 
+     * @param strResourceTypeName
+     *            The created resource type
      */
     public void resourceTypeCreated( String strResourceTypeName )
     {
-        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
+        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
-     * Declare a resource type as removed. This method is used to keep cache up
-     * to date.
-     * @param strResourceTypeName The removed resource type
+     * Declare a resource type as removed. This method is used to keep cache up to date.
+     * 
+     * @param strResourceTypeName
+     *            The removed resource type
      */
     public void resourceTypeRemoved( String strResourceTypeName )
     {
-        ResourceCacheService.getInstance(  )
-                            .removeKey( ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName ) );
-        ResourceCacheService.getInstance(  ).removeKey( ResourceCacheService.getResourceTypesListCacheKey(  ) );
+        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName ) );
+        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
      * Get a resource from its id and type
-     * @param strIdResource the id of the resource to get
-     * @param strResourceTypeName the type of the resource to get
+     * 
+     * @param strIdResource
+     *            the id of the resource to get
+     * @param strResourceTypeName
+     *            the type of the resource to get
      * @return The resource, or null if the resource could not be found
      */
     public IResource getResource( String strIdResource, String strResourceTypeName )
@@ -152,9 +157,10 @@ public class ResourceService
 
     /**
      * Get the list of resources of a given type
-     * @param strResourceTypeName the resource type
-     * @return the list of resource of the given type, or an empty list if not
-     *         resource was found
+     * 
+     * @param strResourceTypeName
+     *            the resource type
+     * @return the list of resource of the given type, or an empty list if not resource was found
      */
     public List<IResource> getListResources( String strResourceTypeName )
     {
@@ -170,14 +176,15 @@ public class ResourceService
 
     /**
      * Get the resource provider of a resource type
-     * @param strResourceTypeName The resource provider of a resource type
-     * @return The resource provider, or null if no provider was found for the
-     *         given resource type
+     * 
+     * @param strResourceTypeName
+     *            The resource provider of a resource type
+     * @return The resource provider, or null if no provider was found for the given resource type
      */
     public IResourceProvider getResourceProvider( String strResourceTypeName )
     {
         String strCacheKey = ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName );
-        IResourceProvider provider = (IResourceProvider) ResourceCacheService.getInstance(  ).getFromCache( strCacheKey );
+        IResourceProvider provider = (IResourceProvider) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
 
         if ( provider != null )
         {
@@ -188,7 +195,7 @@ public class ResourceService
         {
             if ( resourceProvider.isResourceTypeManaged( strResourceTypeName ) )
             {
-                ResourceCacheService.getInstance(  ).putInCache( strCacheKey, resourceProvider );
+                ResourceCacheService.getInstance( ).putInCache( strCacheKey, resourceProvider );
 
                 return resourceProvider;
             }

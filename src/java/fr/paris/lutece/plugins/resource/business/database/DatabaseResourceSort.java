@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.resource.business.database;
 
-
 /**
  * Database resource sort DTO
  */
@@ -48,8 +47,11 @@ public final class DatabaseResourceSort
 
     /**
      * Creates a new database resource sort
-     * @param strSort The sort
-     * @param bSortAsc True to sort ascending, false otherwise
+     * 
+     * @param strSort
+     *            The sort
+     * @param bSortAsc
+     *            True to sort ascending, false otherwise
      */
     private DatabaseResourceSort( String strSort, boolean bSortAsc )
     {
@@ -59,33 +61,36 @@ public final class DatabaseResourceSort
 
     /**
      * Get the sort column name
+     * 
      * @return The sort column name
      */
-    public String getSort(  )
+    public String getSort( )
     {
         return _strSort;
     }
 
     /**
      * Check if the sort should be ascending or descending
+     * 
      * @return True to sort ascending, false otherwise
      */
-    public boolean getSortAsc(  )
+    public boolean getSortAsc( )
     {
         return _bSortAsc;
     }
 
     /**
      * Get a sort from a column name
-     * @param strSort The sort to get
-     * @param bSortAsc True to sort ascending, false otherwise
-     * @return The sort, or the default sort if the specified one does not match
-     *         any of the columns
+     * 
+     * @param strSort
+     *            The sort to get
+     * @param bSortAsc
+     *            True to sort ascending, false otherwise
+     * @return The sort, or the default sort if the specified one does not match any of the columns
      */
     public static DatabaseResourceSort getDatabaseResourceSort( String strSort, boolean bSortAsc )
     {
-        if ( SORT_COLUMN_ID.equals( strSort ) || SORT_COLUMN_RESOURCE_TYPE.equals( strSort ) ||
-                SORT_COLUMN_RESOURCE_NAME.equals( strSort ) )
+        if ( SORT_COLUMN_ID.equals( strSort ) || SORT_COLUMN_RESOURCE_TYPE.equals( strSort ) || SORT_COLUMN_RESOURCE_NAME.equals( strSort ) )
         {
             return new DatabaseResourceSort( strSort, bSortAsc );
         }

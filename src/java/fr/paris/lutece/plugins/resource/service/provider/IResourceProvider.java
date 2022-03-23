@@ -38,7 +38,6 @@ import fr.paris.lutece.plugins.resource.business.IResourceType;
 
 import java.util.List;
 
-
 /**
  * Interface for resource providers. Providers must be declared as Spring beans.
  */
@@ -46,34 +45,37 @@ public interface IResourceProvider
 {
     /**
      * Get the list of resource types managed by this provider
+     * 
      * @return The list of resource types managed by this provider
      */
-    List<IResourceType> getResourceTypeList(  );
+    List<IResourceType> getResourceTypeList( );
 
     /**
      * Check if a resource type is managed by this provider
-     * @param strResourceTypeName The resource type
-     * @return True if the resource type is managed by this provider, false
-     *         otherwise
+     * 
+     * @param strResourceTypeName
+     *            The resource type
+     * @return True if the resource type is managed by this provider, false otherwise
      */
     boolean isResourceTypeManaged( String strResourceTypeName );
 
     /**
-     * Get a resource. The resources is assured to be associated with this
-     * provider.
-     * @param strIdResource The id of the resource
-     * @param strResourceTypeName the resource type
-     * @return The resource, or null if no resource is associated with the given
-     *         resource id and resource type for this provider
+     * Get a resource. The resources is assured to be associated with this provider.
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceTypeName
+     *            the resource type
+     * @return The resource, or null if no resource is associated with the given resource id and resource type for this provider
      */
     IResource getResource( String strIdResource, String strResourceTypeName );
 
     /**
-     * Get the list of resources managed by this provider that have a given
-     * resource type
-     * @param strResourceTypeName The resource type
-     * @return The list of resources, or an empty list if no resource is
-     *         associated with the resource type
+     * Get the list of resources managed by this provider that have a given resource type
+     * 
+     * @param strResourceTypeName
+     *            The resource type
+     * @return The list of resources, or an empty list if no resource is associated with the resource type
      */
     List<IResource> getListResources( String strResourceTypeName );
 }

@@ -53,7 +53,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Jsp Bean to manage resource types
  */
@@ -105,40 +104,42 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
     /**
      * Get the manage resource type page
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML content to display
      */
     @View( value = VIEW_MANAGE_RESOURCE_TYPE, defaultView = true )
     public String getManageResourceType( HttpServletRequest request )
     {
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
-                _nDefaultItemsPerPage );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
-        Paginator<DatabaseResourceType> paginator = new LocalizedPaginator<>( DatabaseResourceTypeHome.findAll(  ),
-                _nItemsPerPage, getViewFullUrl( VIEW_MANAGE_RESOURCE_TYPE ), Paginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex, getLocale(  ) );
+        Paginator<DatabaseResourceType> paginator = new LocalizedPaginator<>( DatabaseResourceTypeHome.findAll( ), _nItemsPerPage,
+                getViewFullUrl( VIEW_MANAGE_RESOURCE_TYPE ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         _resourceType = null;
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
 
         model.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_LIST_RESOURCE_TYPES, paginator.getPageItems(  ) );
+        model.put( MARK_LIST_RESOURCE_TYPES, paginator.getPageItems( ) );
 
         return getPage( MESSAGE_RESOURCE_TYPE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCE_TYPE, model );
     }
 
     /**
      * Get the page to create a resource type
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML content to display
      */
     @View( value = VIEW_CREATE_RESOURCE_TYPE )
     public String viewCreateResourceType( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
 
         if ( _resourceType != null )
         {
@@ -151,13 +152,15 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
     /**
      * Do create a resource type
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return the next URL to redirect to
      */
     @Action( ACTION_DO_CREATE_RESOURCE_TYPE )
     public String doCreateResourceType( HttpServletRequest request )
     {
-        DatabaseResourceType resourceType = new DatabaseResourceType(  );
+        DatabaseResourceType resourceType = new DatabaseResourceType( );
         populate( resourceType, request );
 
         if ( !validateBean( resourceType, VALIDATION_ATTRIBUTES_PREFIX ) )
@@ -168,20 +171,22 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         }
 
         DatabaseResourceTypeHome.insert( resourceType );
-        addInfo( MESSAGE_RESOURCE_TYPE_CREATE, getLocale(  ) );
+        addInfo( MESSAGE_RESOURCE_TYPE_CREATE, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
     }
 
     /**
      * Get the page to create a resource type
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML content to display
      */
     @View( value = VIEW_MODIFY_RESOURCE_TYPE )
     public String viewModifyResourceType( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
 
         DatabaseResourceType resourceType;
 
@@ -209,13 +214,15 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
     /**
      * Do create a resource type
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return the next URL to redirect to
      */
     @Action( ACTION_DO_MODIFY_RESOURCE_TYPE )
     public String doModifyResourceType( HttpServletRequest request )
     {
-        DatabaseResourceType resourceType = new DatabaseResourceType(  );
+        DatabaseResourceType resourceType = new DatabaseResourceType( );
         populate( resourceType, request );
 
         if ( !validateBean( resourceType, VALIDATION_ATTRIBUTES_PREFIX ) )
@@ -226,14 +233,16 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         }
 
         DatabaseResourceTypeHome.update( resourceType );
-        addInfo( MESSAGE_RESOURCE_TYPE_UPDATED, getLocale(  ) );
+        addInfo( MESSAGE_RESOURCE_TYPE_UPDATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
     }
 
     /**
      * Get the confirmation message before removing a resource type
-     * @param request the request
+     * 
+     * @param request
+     *            the request
      * @return The next URL to redirect to
      */
     @View( value = VIEW_REMOVE_RESOURCE_TYPE )
@@ -243,7 +252,7 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isEmpty( strResourceType ) )
         {
-            addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale(  ) );
+            addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
 
             return redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
         }
@@ -252,7 +261,7 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
         if ( resourceType == null )
         {
-            addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale(  ) );
+            addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
 
             return redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
         }
@@ -261,13 +270,14 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         urlItem.addParameter( PARAMETER_RESOURCE_TYPE_NAME, strResourceType );
 
         return redirect( request,
-            AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE, urlItem.getUrl(  ),
-                AdminMessage.TYPE_CONFIRMATION ) );
+                AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE, urlItem.getUrl( ), AdminMessage.TYPE_CONFIRMATION ) );
     }
 
     /**
      * Do remove a resource type
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The next URL to redirect to
      */
     @Action( value = ACTION_DO_REMOVE_RESOURCE_TYPE )
@@ -277,7 +287,7 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isEmpty( strResourceType ) )
         {
-            addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale(  ) );
+            addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
         }
         else
         {
@@ -285,12 +295,11 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
             if ( resourceType == null )
             {
-                addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale(  ) );
+                addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
             }
             else
             {
-                String strError = DatabaseResourceTypeRemovalManager.canResourceTypeBeRemoved( strResourceType,
-                        getLocale(  ) );
+                String strError = DatabaseResourceTypeRemovalManager.canResourceTypeBeRemoved( strResourceType, getLocale( ) );
 
                 if ( strError != null )
                 {
@@ -299,7 +308,7 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
                 else
                 {
                     DatabaseResourceTypeHome.delete( strResourceType );
-                    addInfo( MESSAGE_RESOURCE_TYPE_REMOVED, getLocale(  ) );
+                    addInfo( MESSAGE_RESOURCE_TYPE_REMOVED, getLocale( ) );
                 }
             }
         }

@@ -35,44 +35,54 @@ package fr.paris.lutece.plugins.resource.service.action;
 
 import java.util.Locale;
 
-
 /**
  * Interface for action to apply on resources <br />
- * IResourceAction only represents action button displayed. The content of the
- * action should be implemented by a controller pointed by the URL of the
- * action.
+ * IResourceAction only represents action button displayed. The content of the action should be implemented by a controller pointed by the URL of the action.
  */
 public interface IResourceAction
 {
     /**
      * Check if the action can be performed hover a given resource
-     * @param strIdResource The id of the resource
-     * @param strResourceType The resource type
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The resource type
      * @return True if the action can be performed, false otherwise
      */
     boolean canActionBePerformed( String strIdResource, String strResourceType );
 
     /**
      * Get the URL of the action to perform
-     * @param strIdResource The id of the resource
-     * @param strResourceType The resource type
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The resource type
      * @return The URL of the action
      */
     String getActionUrl( String strIdResource, String strResourceType );
 
     /**
      * Get the CSS class to display the icon of the action
-     * @param strIdResource The id of the resource
-     * @param strResourceType The resource type
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The resource type
      * @return the CSS class to display the icon of the action
      */
     String getIcon( String strIdResource, String strResourceType );
 
     /**
      * Get the title of the action
-     * @param strIdResource The id of the resource
-     * @param strResourceType The resource type
-     * @param locale The locale
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The resource type
+     * @param locale
+     *            The locale
      * @return The title of the action
      */
     String getTitle( String strIdResource, String strResourceType, Locale locale );

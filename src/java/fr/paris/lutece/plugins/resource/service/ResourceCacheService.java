@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.resource.service;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
-
 /**
  * Cache service for resources, resource types and resources providers
  */
@@ -48,21 +47,22 @@ public final class ResourceCacheService extends AbstractCacheableService
     private static final String CACHE_KEY_RESOURCE_TYPE = "resource.resourceType.";
     private static final String CACHE_KEY_RESOURCE = "resource.resource.type.";
     private static final String CONSTANT_POINT = ".";
-    private static final ResourceCacheService _instance = new ResourceCacheService(  );
+    private static final ResourceCacheService _instance = new ResourceCacheService( );
 
     /**
      * Default constructor
      */
-    private ResourceCacheService(  )
+    private ResourceCacheService( )
     {
-        initCache(  );
+        initCache( );
     }
 
     /**
      * Get the instance of the service
+     * 
      * @return The instance of the service
      */
-    public static ResourceCacheService getInstance(  )
+    public static ResourceCacheService getInstance( )
     {
         return _instance;
     }
@@ -71,17 +71,17 @@ public final class ResourceCacheService extends AbstractCacheableService
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return CACHE_SERVICE_NAME;
     }
 
     /**
-     * Get the cache key of the association between a resource provider and a
-     * resource type
-     * @param strResourceType The resource type
-     * @return The cache key of the association between a resource provider and
-     *         a resource type
+     * Get the cache key of the association between a resource provider and a resource type
+     * 
+     * @param strResourceType
+     *            The resource type
+     * @return The cache key of the association between a resource provider and a resource type
      */
     public static String getResourceTypeProviderCacheKey( String strResourceType )
     {
@@ -90,17 +90,21 @@ public final class ResourceCacheService extends AbstractCacheableService
 
     /**
      * Get the cache key for the list of resource types
+     * 
      * @return The cache key for the list of resource types
      */
-    public static String getResourceTypesListCacheKey(  )
+    public static String getResourceTypesListCacheKey( )
     {
         return CACHE_KEY_RESOURCE_TYPE_LIST;
     }
 
     /**
      * Get the cache key for resources
-     * @param strIdResource The id of the resource
-     * @param strResourceType The resource type
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The resource type
      * @return The cache key for the given resource
      */
     public static String getResourceCacheKey( String strIdResource, String strResourceType )
@@ -110,17 +114,15 @@ public final class ResourceCacheService extends AbstractCacheableService
         sbCacheKey.append( CONSTANT_POINT );
         sbCacheKey.append( strIdResource );
 
-        return sbCacheKey.toString(  );
+        return sbCacheKey.toString( );
     }
 
     /**
-     * Get the cache key for resources. This method should only be used to
-     * manage database resource type keys. <br />
-     * To cache resources of any other
-     * providers, use the
-     * {@link #getResourceCacheKey(String strIdResource, String strResourceType)}
-     * method.
-     * @param strIdResource The id of the resource
+     * Get the cache key for resources. This method should only be used to manage database resource type keys. <br />
+     * To cache resources of any other providers, use the {@link #getResourceCacheKey(String strIdResource, String strResourceType)} method.
+     * 
+     * @param strIdResource
+     *            The id of the resource
      * @return The cache key for the given resource
      */
     public static String getDatabaseResourceCacheKey( String strIdResource )
@@ -130,7 +132,9 @@ public final class ResourceCacheService extends AbstractCacheableService
 
     /**
      * Get the cache for resource types
-     * @param strResourceType The resource type
+     * 
+     * @param strResourceType
+     *            The resource type
      * @return The cache key for the given resource type
      */
     public static String getResourceTypeCacheKey( String strResourceType )

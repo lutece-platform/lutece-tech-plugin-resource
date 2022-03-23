@@ -40,10 +40,8 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
- * Removal listener of resource types that check that the resource type is not
- * associated with any resource
+ * Removal listener of resource types that check that the resource type is not associated with any resource
  */
 public class DatabaseResourceTypeResourceRemovalListener implements IDatabaseResourceTypeRemovalListener
 {

@@ -42,7 +42,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 /**
  * Resource type
  */
@@ -61,14 +60,16 @@ public class DatabaseResourceType implements IResourceType, Serializable, Clonea
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeName(  )
+    public String getResourceTypeName( )
     {
         return _strResourceTypeName;
     }
 
     /**
      * Set the name of the resource type
-     * @param strResourceTypeName The name of the resource type
+     * 
+     * @param strResourceTypeName
+     *            The name of the resource type
      */
     public void setResourceTypeName( String strResourceTypeName )
     {
@@ -79,14 +80,16 @@ public class DatabaseResourceType implements IResourceType, Serializable, Clonea
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeDescription(  )
+    public String getResourceTypeDescription( )
     {
         return _strResourceTypeDescription;
     }
 
     /**
      * Set the description of the resource type
-     * @param strResourceTypeDescription The description of the resource type
+     * 
+     * @param strResourceTypeDescription
+     *            The description of the resource type
      */
     public void setResourceTypeDescription( String strResourceTypeDescription )
     {
@@ -97,15 +100,15 @@ public class DatabaseResourceType implements IResourceType, Serializable, Clonea
      * {@inheritDoc}
      */
     @Override
-    public DatabaseResourceType clone(  )
+    public DatabaseResourceType clone( )
     {
         try
         {
-            return (DatabaseResourceType) super.clone(  );
+            return (DatabaseResourceType) super.clone( );
         }
-        catch ( CloneNotSupportedException e )
+        catch( CloneNotSupportedException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return null;

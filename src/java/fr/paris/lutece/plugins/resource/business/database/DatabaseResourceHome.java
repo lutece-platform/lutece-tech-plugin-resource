@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  * Database resource home
  */
@@ -53,64 +52,67 @@ public final class DatabaseResourceHome
     /**
      * Default constructor
      */
-    private DatabaseResourceHome(  )
+    private DatabaseResourceHome( )
     {
         // Nothing to do
     }
 
     /**
      * Create a new database resource
-     * @param resource The resource to creates
+     * 
+     * @param resource
+     *            The resource to creates
      */
     public static void create( DatabaseResource resource )
     {
         _dao.insert( resource, _plugin );
-        ResourceCacheService.getInstance(  )
-                            .putInCache( ResourceCacheService.getDatabaseResourceCacheKey( resource.getIdResource(  ) ),
-            resource.clone(  ) );
+        ResourceCacheService.getInstance( ).putInCache( ResourceCacheService.getDatabaseResourceCacheKey( resource.getIdResource( ) ), resource.clone( ) );
     }
 
     /**
      * Updates a database resource
-     * @param resource The resource
+     * 
+     * @param resource
+     *            The resource
      */
     public static void update( DatabaseResource resource )
     {
         _dao.update( resource, _plugin );
-        ResourceCacheService.getInstance(  )
-                            .putInCache( ResourceCacheService.getDatabaseResourceCacheKey( resource.getIdResource(  ) ),
-            resource.clone(  ) );
+        ResourceCacheService.getInstance( ).putInCache( ResourceCacheService.getDatabaseResourceCacheKey( resource.getIdResource( ) ), resource.clone( ) );
     }
 
     /**
      * Remove a resource from the database
-     * @param nIdResource the id of the resource
+     * 
+     * @param nIdResource
+     *            the id of the resource
      */
     public static void delete( int nIdResource )
     {
         _dao.delete( nIdResource, _plugin );
-        ResourceCacheService.getInstance(  )
-                            .removeKey( ResourceCacheService.getDatabaseResourceCacheKey( Integer.toString( nIdResource ) ) );
+        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getDatabaseResourceCacheKey( Integer.toString( nIdResource ) ) );
     }
 
     /**
      * Find a resource from its primary key
-     * @param nIdResource the id of the resource
+     * 
+     * @param nIdResource
+     *            the id of the resource
      * @return The resource, or null if no resource has the given primary key
      */
     public static DatabaseResource findByPrimaryKey( int nIdResource )
     {
         String strCacheKey = ResourceCacheService.getDatabaseResourceCacheKey( Integer.toString( nIdResource ) );
-        DatabaseResource resource = (DatabaseResource) ResourceCacheService.getInstance(  ).getFromCache( strCacheKey );
+        DatabaseResource resource = (DatabaseResource) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
 
         if ( resource == null )
         {
             resource = _dao.findByPrimaryKey( nIdResource, _plugin );
-            ResourceCacheService.getInstance(  ).putInCache( strCacheKey, resource.clone(  ) );
+            ResourceCacheService.getInstance( ).putInCache( strCacheKey, resource.clone( ) );
         }
         else
         {
-            resource = resource.clone(  );
+            resource = resource.clone( );
         }
 
         return resource;
@@ -118,16 +120,19 @@ public final class DatabaseResourceHome
 
     /**
      * Get the list of resources
+     * 
      * @return The list of resources
      */
-    public static List<DatabaseResource> findAll(  )
+    public static List<DatabaseResource> findAll( )
     {
         return _dao.findAll( _plugin );
     }
 
     /**
      * Get the list of ids of resources
-     * @param resourceSort The sort parameters
+     * 
+     * @param resourceSort
+     *            The sort parameters
      * @return The list of ids of resources
      */
     public static List<Integer> findAllId( DatabaseResourceSort resourceSort )
@@ -137,8 +142,11 @@ public final class DatabaseResourceHome
 
     /**
      * Get the list of database resources from an id list
-     * @param listId The list of ids of resources to get
-     * @param resourceSort The sort parameters
+     * 
+     * @param listId
+     *            The list of ids of resources to get
+     * @param resourceSort
+     *            The sort parameters
      * @return The list of resources
      */
     public static List<DatabaseResource> findByListId( List<Integer> listId, DatabaseResourceSort resourceSort )
@@ -148,9 +156,10 @@ public final class DatabaseResourceHome
 
     /**
      * Get the list of resources that have a given resource type
-     * @param strResourceType The resource type
-     * @return The list of resources, or an empty list if no resource has the
-     *         given resource type
+     * 
+     * @param strResourceType
+     *            The resource type
+     * @return The list of resources, or an empty list if no resource has the given resource type
      */
     public static List<DatabaseResource> findByResourceType( String strResourceType )
     {

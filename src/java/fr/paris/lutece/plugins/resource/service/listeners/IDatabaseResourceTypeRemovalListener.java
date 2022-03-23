@@ -35,11 +35,10 @@ package fr.paris.lutece.plugins.resource.service.listeners;
 
 import fr.paris.lutece.portal.service.util.RemovalListener;
 
-
 /**
  * Interface for removal listeners of database
  */
 public interface IDatabaseResourceTypeRemovalListener extends RemovalListener
 {
-    // no more method to define 
+    // no more method to define
 }

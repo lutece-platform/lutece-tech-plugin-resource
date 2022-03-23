@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-
 /**
  * Business class for resources
  */
@@ -58,14 +57,16 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public String getIdResource(  )
+    public String getIdResource( )
     {
         return _strIdResource;
     }
 
     /**
      * Set the id of the resource
-     * @param nIdResource The id of the resource
+     * 
+     * @param nIdResource
+     *            The id of the resource
      */
     protected void setIdResource( int nIdResource )
     {
@@ -76,14 +77,16 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public String getResourceType(  )
+    public String getResourceType( )
     {
         return _strResourceType;
     }
 
     /**
      * Set the type of this resource
-     * @param strResourceType The type of this resource
+     * 
+     * @param strResourceType
+     *            The type of this resource
      */
     public void setResourceType( String strResourceType )
     {
@@ -94,14 +97,16 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public String getResourceName(  )
+    public String getResourceName( )
     {
         return _strResourceName;
     }
 
     /**
      * Set the name of this resource
-     * @param strResourceName The name of this resource
+     * 
+     * @param strResourceName
+     *            The name of this resource
      */
     public void setResourceName( String strResourceName )
     {
@@ -112,15 +117,15 @@ public class DatabaseResource implements IResource, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public DatabaseResource clone(  )
+    public DatabaseResource clone( )
     {
         try
         {
-            return (DatabaseResource) super.clone(  );
+            return (DatabaseResource) super.clone( );
         }
-        catch ( CloneNotSupportedException e )
+        catch( CloneNotSupportedException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return null;
