@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><plug-in>
     <name>resource</name>
     <class>fr.paris.lutece.plugins.resource.service.ResourcePlugin</class>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.2</version>
     <description>resource.plugin.description</description>
     <documentation/>
     <installation/>
