@@ -1,51 +1,46 @@
 <#include "/admin/plugins/resource/manage_resources_tabs.html" />
 
-<@row>	<@columns>
+<@row>
+	<@columns>
 		<@messages infos=infos errors=errors />
 		<@resourceTabs tab="resource_types">
-		<@tabContent>
-			<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
-				<@input type='hidden' name='view' value='viewCreateResourceType' />
-				<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' buttonIcon='plus' />
-			</@tform>
-			
-			<div style="clear:both;"></div>
-			<legend class="sr-only">#i18n{resource.resourceTypeManagement.pageTitle}</legend>
-			
-			<#if list_resource_types?? && list_resource_types?has_content>
-				<@table>
-					<thead>
-						<tr>
-							<th>
+			<@tabContent>
+				<@fieldSet legend='#i18n{resource.resourceTypeManagement.pageTitle}' class='d-flex justify-content-between'>
+					<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
+						<@input type='hidden' name='view' value='viewCreateResourceType' />
+						<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' buttonIcon='plus' />
+					</@tform>
+				</@fieldSet>
+				<#if list_resource_types?? && list_resource_types?has_content>
+					<@table headBody=true>
+						<@tr>
+							<@th>
 								#i18n{resource.resourceTypeManagement.labelName}
-							</th>
-							<th>
+							</@th>
+							<@th>
 								#i18n{resource.resourceTypeManagement.labelDescription}
-							</th>
-							<th>
+							</@th>
+							<@th>
 								#i18n{portal.util.labelActions}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
+							</@th>
+						</@tr>
+						<@tableHeadBodySeparator />
 						<#list list_resource_types as resource_type>
-							<tr>
-								<td>
+							<@tr>
+								<@td>
 									${resource_type.resourceTypeName}
-								</td>
-								<td>
+								</@td>
+								<@td>
 									${resource_type.resourceTypeDescription}
-								</td>
-								<td>
+								</@td>
+								<@td>
 									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewModifyResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' hideTitle=['all'] size='sm' />
 									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewConfirmRemoveResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
-								</td>
-							</tr>
+								</@td>
+							</@tr>
 						</#list>
-					</tbody>
-				</@table>
-				<@paginationAdmin paginator=paginator combo=1 form=1 />
-				<div style="clear:both;"></div>
+					</@table>
+					<@paginationAdmin paginator=paginator combo=1 form=1 />
 				<#else>
 					#i18n{resource.resourceManagement.labelNoResource}
 				</#if>
