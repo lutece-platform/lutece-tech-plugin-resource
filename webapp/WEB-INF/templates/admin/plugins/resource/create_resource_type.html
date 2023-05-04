@@ -11,7 +11,6 @@
 					<@formGroup labelFor='resourceTypeDescription' labelKey='#i18n{resource.createResourceType.labelDescription}' mandatory=true>
 						<@input type='text' name='resourceTypeDescription' value=(resource_type.resourceTypeDescription)!'' maxlength=255 />
 					</@formGroup>
-					
 					<@formGroup>
 						<@button type='submit' name='action' value='doCreateResourceType' title='#i18n{portal.util.labelValidate}' buttonIcon='check' />
 						<@button type='submit' name='view' value='getManageResourceTypes' title='#i18n{portal.util.labelBack}' buttonIcon='times' cancel=true />

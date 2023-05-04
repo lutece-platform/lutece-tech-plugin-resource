@@ -1,17 +1,17 @@
 <#include "/admin/plugins/resource/manage_resources_tabs.html" />
 
-<@row>	<@columns>
+<@row>
+	<@columns>
 		<@messages infos=infos errors=errors />
 		<@resourceTabs tab="resource_types">
 		<@tabContent>
-			<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
-				<@input type='hidden' name='view' value='viewCreateResourceType' />
-				<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' buttonIcon='plus' />
-			</@tform>
-			
-			<div style="clear:both;"></div>
-			<legend class="sr-only">#i18n{resource.resourceTypeManagement.pageTitle}</legend>
-			
+			<legend style="display:flex;justify-content:space-between;padding-bottom:5px;margin-bottom:5px;">
+			#i18n{resource.resourceTypeManagement.pageTitle}
+				<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
+					<@input type='hidden' name='view' value='viewCreateResourceType' />
+					<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' buttonIcon='plus' />
+				</@tform>
+			</legend>
 			<#if list_resource_types?? && list_resource_types?has_content>
 				<@table>
 					<thead>
