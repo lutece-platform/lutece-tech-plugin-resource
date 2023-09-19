@@ -1,26 +1,26 @@
 <#include "/admin/plugins/resource/manage_resources_tabs.html" />
 
-<@row>	<@columns>
+<@row>
+	<@columns>
 		<@messages infos=infos errors=errors />
 		<@resourceTabs tab='resources'>
 		<@tabContent>
-			<#if refListResourceTypes?? && refListResourceTypes?has_content>
-				<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
-					<@input type='hidden' name='view' value='viewCreateResource' />
-					<@formGroup formStyle='inline' labelFor='resource_type' labelKey='#i18n{resource.resourceManagement.labelResourceType}'>
-						<@inputGroup>
-							<@select name='resource_type' items=refListResourceTypes default_value='' size='sm' />
-							<@inputGroupItem>
-								<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceManagement.labelAddResource}' hideTitle=['all'] buttonIcon='check' size='sm' />
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-				</@tform>
-			</#if>
-
-			<div style="clear:both;"></div>
-			<legend class="sr-only">#i18n{resource.resourceManagement.pageTitle}</legend>
-			
+			<legend style="display:flex;justify-content:space-between;padding-bottom:5px;margin-bottom:5px;">
+			#i18n{resource.resourceManagement.pageTitle}
+					<#if refListResourceTypes?? && refListResourceTypes?has_content>
+						<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
+							<@input type='hidden' name='view' value='viewCreateResource' />
+							<@formGroup formStyle='inline' align='right' labelFor='resource_type' labelKey=''>
+								<@inputGroup>
+									<@select name='resource_type' items=refListResourceTypes default_value='' size='sm' />
+									<@inputGroupItem>
+										<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceManagement.labelAddResource}' hideTitle=['all'] buttonIcon='plus-square' size='sm' />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@formGroup>
+						</@tform>
+					</#if>
+			</legend>
 			<#if listResources?? && listResources?has_content>
 				<@table params='style="clear:both;"'>
 					<thead>

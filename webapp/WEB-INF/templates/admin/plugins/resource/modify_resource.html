@@ -6,13 +6,11 @@
 				<@messages errors=errors />
 				<@tform action='jsp/admin/plugins/resource/ManageResources.jsp'>
 					<@formGroup labelFor='resourceName' labelKey='#i18n{resource.createResource.labelName}' mandatory=true>						<@input type='text' name='resourceName' id='resourceName' value=(resource.resourceName)!'' maxlength=255 />					</@formGroup>
-						
 					<@formGroup labelKey='#i18n{resource.resourceManagement.labelResourceType}'>
 						<@staticText>
 							${resource_type.resourceTypeDescription}
 						</@staticText>
 					</@formGroup>
-					
 					<@formGroup>
 						<@input type='hidden' name='idResource' value='${resource.idResource}' />
 						<@button type='submit' name='action' value='doModifyResource' buttonIcon='check' title='#i18n{portal.util.labelValidate}' />
