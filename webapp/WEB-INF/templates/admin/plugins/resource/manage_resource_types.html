@@ -1,50 +1,43 @@
 <#include "/admin/plugins/resource/manage_resources_tabs.html" />
 
-<@row>
-	<@columns>
-		<@messages infos=infos errors=errors />
-		<@resourceTabs tab="resource_types">
-			<@tabContent>
-				<@fieldSet legend='#i18n{resource.resourceTypeManagement.pageTitle}' class='d-flex justify-content-between'>
-					<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResourceTypes.jsp'>
-						<@input type='hidden' name='view' value='viewCreateResourceType' />
-						<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' buttonIcon='plus' />
-					</@tform>
-				</@fieldSet>
-				<#if list_resource_types?? && list_resource_types?has_content>
-					<@table headBody=true>
-						<@tr>
-							<@th>
-								#i18n{resource.resourceTypeManagement.labelName}
-							</@th>
-							<@th>
-								#i18n{resource.resourceTypeManagement.labelDescription}
-							</@th>
-							<@th>
-								#i18n{portal.util.labelActions}
-							</@th>
-						</@tr>
-						<@tableHeadBodySeparator />
-						<#list list_resource_types as resource_type>
-							<@tr>
-								<@td>
-									${resource_type.resourceTypeName}
-								</@td>
-								<@td>
-									${resource_type.resourceTypeDescription}
-								</@td>
-								<@td>
-									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewModifyResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' hideTitle=['all'] size='sm' />
-									<@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewConfirmRemoveResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
-								</@td>
-							</@tr>
-						</#list>
-					</@table>
-					<@paginationAdmin paginator=paginator combo=1 form=1 />
-				<#else>
-					#i18n{resource.resourceManagement.labelNoResource}
-				</#if>
-			</@tabContent>
-		</@resourceTabs>
-	</@columns>
-</@row>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='#i18n{resource.resourceTypeManagement.pageTitle}'>
+            <@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewCreateResourceType' buttonIcon='plus' title='#i18n{resource.resourceTypeManagement.labelAddResourceType}' color='primary' />
+        </@pageHeader>
+
+        <#if (infos!)?has_content>
+            <@alert color='info'><#list (infos![]) as info><div>${info.message}</div></#list></@alert>
+        </#if>
+        <#if (errors!)?has_content>
+            <@alert color='danger'><#list (errors![]) as error><div>${error.message}</div></#list></@alert>
+        </#if>
+
+        <@resourceTabs tab='resource_types'>
+            <@tabContent>
+                <#if list_resource_types?? && list_resource_types?has_content>
+                    <@table>
+                        <tr>
+                            <th>#i18n{resource.resourceTypeManagement.labelName}</th>
+                            <th>#i18n{resource.resourceTypeManagement.labelDescription}</th>
+                            <th>#i18n{portal.util.labelActions}</th>
+                        </tr>
+                        <#list list_resource_types as resource_type>
+                            <tr>
+                                <td>${resource_type.resourceTypeName!}</td>
+                                <td>${resource_type.resourceTypeDescription!}</td>
+                                <td>
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewModifyResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' hideTitle=['all'] size='sm' />
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResourceTypes.jsp?view=viewConfirmRemoveResourceType&resourceTypeName=${resource_type.resourceTypeName}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' hideTitle=['all'] color='danger' size='sm' />
+                                </td>
+                            </tr>
+                        </#list>
+                    </@table>
+                    <@paginationAdmin paginator=paginator combo=1 form=1 />
+                <#else>
+                    <@alert color='info'>#i18n{resource.resourceManagement.labelNoResource}</@alert>
+                </#if>
+            </@tabContent>
+        </@resourceTabs>
+    </@pageColumn>
+</@pageContainer>

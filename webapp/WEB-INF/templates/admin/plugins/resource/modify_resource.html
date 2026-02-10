@@ -1,25 +1,29 @@
-<@row>
-	<@columns>
-		<@box>
-			<@boxHeader title='#i18n{resource.resourceManagement.labelModifyResource}' />
-			<@boxBody>
-				<@messages errors=errors />
-				<@tform action='jsp/admin/plugins/resource/ManageResources.jsp'>
-					<@formGroup labelFor='resourceName' labelKey='#i18n{resource.createResource.labelName}' mandatory=true>						<@input type='text' name='resourceName' id='resourceName' value=(resource.resourceName)!'' maxlength=255 />					</@formGroup>
-						
-					<@formGroup labelKey='#i18n{resource.resourceManagement.labelResourceType}'>
-						<@staticText>
-							${resource_type.resourceTypeDescription}
-						</@staticText>
-					</@formGroup>
-					
-					<@formGroup>
-						<@input type='hidden' name='idResource' value='${resource.idResource}' />
-						<@button type='submit' name='action' value='doModifyResource' buttonIcon='check' title='#i18n{portal.util.labelValidate}' />
-						<@button type='submit' name='view' value='getManageResources' buttonIcon='times' title='#i18n{portal.util.labelBack}' cancel=true />
-					</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='#i18n{resource.resourceManagement.labelModifyResource}'>
+            <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' />
+        </@pageHeader>
+
+        <#if (errors!)?has_content>
+            <@alert color='danger'><#list (errors![]) as error><div>${error.message}</div></#list></@alert>
+        </#if>
+
+        <@tform method='post' action='jsp/admin/plugins/resource/ManageResources.jsp' boxed=true>
+            <@input type='hidden' name='action' value='doModifyResource' />
+            <@input type='hidden' name='idResource' value='${resource.idResource!}' />
+
+            <@formGroup labelFor='resourceName' labelKey='#i18n{resource.createResource.labelName}' mandatory=true rows=2>
+                <@input type='text' name='resourceName' id='resourceName' value='${(resource.resourceName)!}' maxlength=255 />
+            </@formGroup>
+            <@formGroup labelKey='#i18n{resource.resourceManagement.labelResourceType}' rows=2>
+                <@staticText>
+                    ${resource_type.resourceTypeDescription!}
+                </@staticText>
+            </@formGroup>
+            <@formGroup rows=2>
+                <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' color='primary' />
+                <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' buttonIcon='times' title='#i18n{portal.util.labelCancel}' />
+            </@formGroup>
+        </@tform>
+    </@pageColumn>
+</@pageContainer>

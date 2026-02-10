@@ -36,12 +36,17 @@ package fr.paris.lutece.plugins.resource.business.database;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * DAO for database resource type
  */
+@ApplicationScoped
+@Named( IDatabaseResourceTypeDAO.BEAN_NAME )
 public class DatabaseResourceTypeDAO implements IDatabaseResourceTypeDAO
 {
     private static final String SQL_QUERY_SELECT_RESOURCE_TYPE = " SELECT resource_type_name, resource_type_description FROM resource_resource_type ";

@@ -33,11 +33,14 @@
  */
 package fr.paris.lutece.plugins.resource.business;
 
+import java.io.Serializable;
+
 /**
  * Default implementation of resource types
  */
-public class ResourceTypeDefaultImplementation implements IResourceType
+public class ResourceTypeDefaultImplementation implements IResourceType, Serializable
 {
+    private static final long serialVersionUID = 1L;
     private final String _strResourceTypeName;
     private final String _strResourceTypeDescription;
 

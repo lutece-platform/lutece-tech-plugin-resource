@@ -36,8 +36,8 @@ package fr.paris.lutece.plugins.resource.business.database;
 import fr.paris.lutece.plugins.resource.business.IResource;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 /**
  * Business class for resources

@@ -1,88 +1,93 @@
 <#include "/admin/plugins/resource/manage_resources_tabs.html" />
 
-<@row>
-	<@columns>
-		<@messages infos=infos errors=errors />
-		<@resourceTabs tab='resources'>
-			<@tabContent>
-				<@fieldSet legend='#i18n{resource.resourceManagement.pageTitle}' class='d-flex justify-content-between'>
-					<#if refListResourceTypes?? && refListResourceTypes?has_content>
-						<@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
-							<@input type='hidden' name='view' value='viewCreateResource' />
-							<@formGroup formStyle='inline' align='right' labelFor='resource_type' labelKey=''>
-								<@inputGroup>
-									<@select name='resource_type' items=refListResourceTypes default_value='' size='sm' />
-									<@inputGroupItem>
-										<@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceManagement.labelAddResource}' hideTitle=['all'] buttonIcon='check' size='sm' />
-									</@inputGroupItem>
-								</@inputGroup>
-							</@formGroup>
-						</@tform>
-					</#if>
-				</@fieldSet>
-				<#if listResources?? && listResources?has_content>
-					<@table headBody=true>
-						<@tr>
-							<@th>
-								#i18n{resource.resourceManagement.labelId}
-								<@sort jsp_url="jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources" attribute="id_resource" />
-							</@th>
-							<@th>
-								#i18n{resource.resourceManagement.labelName}
-								<@sort jsp_url="jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources" attribute="resource_name" />
-							</@th>
-							<@th>
-								#i18n{resource.resourceManagement.labelResourceType}
-								<@sort jsp_url="jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources" attribute="resource_type" />
-							</@th>
-							<@th>
-								#i18n{portal.util.labelActions}
-							</@th>
-						</@tr>
-						<@tableHeadBodySeparator />
-						<#list listResources as resource>
-							<@tr>
-								<@td>
-									${resource.idResource}
-								</@td>
-								<@td>
-									${resource.resourceName}
-								</@td>
-								<@td>
-									<#assign resourceTypeDescription="">
-									<#if refListResourceTypes?? && refListResourceTypes?has_content>
-										<#list refListResourceTypes as resourceType>
-											<#if resourceType.code==resource.resourceType>
-												<#assign resourceTypeDescription=resourceType.name>
-												<#break>
-											</#if>
-										</#list>
-									</#if>
-									<#if resourceTypeDescription=="">
-										${resource.resourceType}
-									<#else>
-										${resourceTypeDescription}
-									</#if>
-								</@td>
-								<@td>
-									<@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
-									<#if list_actions??>
-										<#list list_actions as action>
-											<#if action.canActionBePerformed( resource.idResource, resource.resourceType )>
-												<@aButton href='${action.getActionUrl( resource.idResource, resource.resourceType )}' title='${action.getTitle(resource.idResource, resource.resourceType, locale)}' buttonIcon='${action.getIcon(resource.idResource, resource.resourceType)}' size='sm' />
-											</#if>
-										</#list>
-									</#if>
-									<@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
-								</@td>
-							</@tr>
-						</#list>
-					</@table>
-					<@paginationAdmin paginator=paginator combo=1 form=1 />
-				<#else>
-					#i18n{resource.resourceManagement.labelNoResource}
-				</#if>
-			</@tabContent>
-		</@resourceTabs>
-	</@columns>
-</@row>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='#i18n{resource.resourceManagement.pageTitle}' />
+
+        <#if (infos!)?has_content>
+            <@alert color='info'><#list (infos![]) as info><div>${info.message}</div></#list></@alert>
+        </#if>
+        <#if (errors!)?has_content>
+            <@alert color='danger'><#list (errors![]) as error><div>${error.message}</div></#list></@alert>
+        </#if>
+
+        <@resourceTabs tab='resources'>
+            <@tabContent>
+                <#if refListResourceTypes?? && refListResourceTypes?has_content>
+                    <@row>
+                        <@columns>
+                            <@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
+                                <@input type='hidden' name='view' value='viewCreateResource' />
+                                <@formGroup formStyle='inline' align='right' labelFor='resource_type' labelKey=''>
+                                    <@inputGroup>
+                                        <@select name='resource_type' items=refListResourceTypes default_value='' size='sm' />
+                                        <@inputGroupItem>
+                                            <@button type='submit' name='add_resource' value='add_resource' title='#i18n{resource.resourceManagement.labelAddResource}' hideTitle=['all'] buttonIcon='plus' size='sm' color='primary' />
+                                        </@inputGroupItem>
+                                    </@inputGroup>
+                                </@formGroup>
+                            </@tform>
+                        </@columns>
+                    </@row>
+                </#if>
+                <#if listResources?? && listResources?has_content>
+                    <@table>
+                        <tr>
+                            <th>
+                                #i18n{resource.resourceManagement.labelId}
+                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='id_resource' />
+                            </th>
+                            <th>
+                                #i18n{resource.resourceManagement.labelName}
+                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='resource_name' />
+                            </th>
+                            <th>
+                                #i18n{resource.resourceManagement.labelResourceType}
+                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='resource_type' />
+                            </th>
+                            <th>
+                                #i18n{portal.util.labelActions}
+                            </th>
+                        </tr>
+                        <#list listResources as resource>
+                            <tr>
+                                <td>${resource.idResource!}</td>
+                                <td>${resource.resourceName!}</td>
+                                <td>
+                                    <#assign resourceTypeDescription=''>
+                                    <#if refListResourceTypes?? && refListResourceTypes?has_content>
+                                        <#list refListResourceTypes as resourceType>
+                                            <#if resourceType.code==resource.resourceType>
+                                                <#assign resourceTypeDescription=resourceType.name>
+                                                <#break>
+                                            </#if>
+                                        </#list>
+                                    </#if>
+                                    <#if resourceTypeDescription==''>
+                                        ${resource.resourceType!}
+                                    <#else>
+                                        ${resourceTypeDescription}
+                                    </#if>
+                                </td>
+                                <td>
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
+                                    <#if list_actions??>
+                                        <#list list_actions as action>
+                                            <#if action.canActionBePerformed( resource.idResource, resource.resourceType )>
+                                                <@aButton href='${action.getActionUrl( resource.idResource, resource.resourceType )}' title='${action.getTitle(resource.idResource, resource.resourceType, locale)}' buttonIcon='${action.getIcon(resource.idResource, resource.resourceType)}' size='sm' />
+                                            </#if>
+                                        </#list>
+                                    </#if>
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
+                                </td>
+                            </tr>
+                        </#list>
+                    </@table>
+                    <@paginationAdmin paginator=paginator combo=1 form=1 />
+                <#else>
+                    <@alert color='info'>#i18n{resource.resourceManagement.labelNoResource}</@alert>
+                </#if>
+            </@tabContent>
+        </@resourceTabs>
+    </@pageColumn>
+</@pageContainer>

@@ -37,7 +37,8 @@ import fr.paris.lutece.plugins.resource.service.ResourceCacheService;
 import fr.paris.lutece.plugins.resource.service.ResourcePlugin;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -46,7 +47,8 @@ import java.util.List;
  */
 public final class DatabaseResourceTypeHome
 {
-    private static IDatabaseResourceTypeDAO _dao = SpringContextService.getBean( IDatabaseResourceTypeDAO.BEAN_NAME );
+    private static IDatabaseResourceTypeDAO _dao = CDI.current( ).select( IDatabaseResourceTypeDAO.class ).get( );
+    private static ResourceCacheService _cacheService = CDI.current( ).select( ResourceCacheService.class ).get( );
     private static Plugin _plugin = PluginService.getPlugin( ResourcePlugin.PLUGIN_NAME );
 
     /**
@@ -66,9 +68,9 @@ public final class DatabaseResourceTypeHome
     public static void insert( DatabaseResourceType resourceType )
     {
         _dao.insert( resourceType, _plugin );
-        ResourceCacheService.getInstance( ).putInCache( ResourceCacheService.getResourceTypeCacheKey( resourceType.getResourceTypeName( ) ),
+        _cacheService.put( ResourceCacheService.getResourceTypeCacheKey( resourceType.getResourceTypeName( ) ),
                 resourceType.clone( ) );
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
@@ -80,9 +82,9 @@ public final class DatabaseResourceTypeHome
     public static void update( DatabaseResourceType resourceType )
     {
         _dao.update( resourceType, _plugin );
-        ResourceCacheService.getInstance( ).putInCache( ResourceCacheService.getResourceTypeCacheKey( resourceType.getResourceTypeName( ) ),
+        _cacheService.put( ResourceCacheService.getResourceTypeCacheKey( resourceType.getResourceTypeName( ) ),
                 resourceType.clone( ) );
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
@@ -94,8 +96,8 @@ public final class DatabaseResourceTypeHome
     public static void delete( String strResourceType )
     {
         _dao.delete( strResourceType, _plugin );
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypeCacheKey( strResourceType ) );
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypeCacheKey( strResourceType ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
@@ -108,7 +110,7 @@ public final class DatabaseResourceTypeHome
     public static DatabaseResourceType findByPrimaryKey( String strResourceType )
     {
         String strCacheKey = ResourceCacheService.getResourceTypeCacheKey( strResourceType );
-        DatabaseResourceType resourceType = (DatabaseResourceType) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
+        DatabaseResourceType resourceType = (DatabaseResourceType) _cacheService.get( strCacheKey );
 
         if ( resourceType == null )
         {
@@ -116,7 +118,7 @@ public final class DatabaseResourceTypeHome
 
             if ( resourceType != null )
             {
-                ResourceCacheService.getInstance( ).putInCache( strCacheKey, resourceType.clone( ) );
+                _cacheService.put( strCacheKey, resourceType.clone( ) );
             }
         }
         else
