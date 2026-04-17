@@ -38,6 +38,8 @@ import fr.paris.lutece.plugins.resource.business.IResourceType;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceHome;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHome;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -45,6 +47,7 @@ import java.util.List;
 /**
  * Provider for database resources
  */
+@ApplicationScoped
 public class DatabaseResourceProvider implements IResourceProvider
 {
     /**

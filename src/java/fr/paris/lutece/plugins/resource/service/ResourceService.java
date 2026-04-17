@@ -36,7 +36,11 @@ package fr.paris.lutece.plugins.resource.service;
 import fr.paris.lutece.plugins.resource.business.IResource;
 import fr.paris.lutece.plugins.resource.business.IResourceType;
 import fr.paris.lutece.plugins.resource.service.provider.IResourceProvider;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,43 +48,26 @@ import java.util.List;
 /**
  * Resource service
  */
+@ApplicationScoped
 public class ResourceService
 {
-    private static final String BEAN_NAME = "resource.resourceService";
-    private static volatile ResourceService _instance;
+    @Inject
+    private ResourceCacheService _cacheService;
 
-    /**
-     * Default constructor
-     */
-    private ResourceService( )
-    {
-        // Private constructor
-    }
-
-    /**
-     * Get the instance of the service
-     * 
-     * @return The instance of the service
-     */
-    public static ResourceService getInstance( )
-    {
-        if ( _instance == null )
-        {
-            _instance = SpringContextService.getBean( BEAN_NAME );
-        }
-
-        return _instance;
-    }
+    @Inject
+    @Any
+    private Instance<IResourceProvider> _providers;
 
     /**
      * Get the list of available resource types
-     * 
+     *
      * @return The list of available resource types
      */
+    @SuppressWarnings( "unchecked" )
     public List<IResourceType> getResourceTypesList( )
     {
         String strCacheKey = ResourceCacheService.getResourceTypesListCacheKey( );
-        List<IResourceType> listResourceTypes = (List<IResourceType>) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
+        List<IResourceType> listResourceTypes = (List<IResourceType>) _cacheService.get( strCacheKey );
 
         if ( listResourceTypes != null )
         {
@@ -89,19 +76,19 @@ public class ResourceService
 
         listResourceTypes = new ArrayList<>( );
 
-        for ( IResourceProvider provider : SpringContextService.getBeansOfType( IResourceProvider.class ) )
+        for ( IResourceProvider provider : _providers )
         {
             listResourceTypes.addAll( provider.getResourceTypeList( ) );
         }
 
-        ResourceCacheService.getInstance( ).putInCache( strCacheKey, listResourceTypes );
+        _cacheService.put( strCacheKey, listResourceTypes );
 
         return listResourceTypes;
     }
 
     /**
      * Check if a resource type is managed by any provider
-     * 
+     *
      * @param strResourceTypeName
      *            The resource type
      * @return True if the resource type is managed by any provider, false otherwise
@@ -113,30 +100,30 @@ public class ResourceService
 
     /**
      * Declare a resource type as created. This method is used to keep cache up to date.
-     * 
+     *
      * @param strResourceTypeName
      *            The created resource type
      */
     public void resourceTypeCreated( String strResourceTypeName )
     {
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
      * Declare a resource type as removed. This method is used to keep cache up to date.
-     * 
+     *
      * @param strResourceTypeName
      *            The removed resource type
      */
     public void resourceTypeRemoved( String strResourceTypeName )
     {
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName ) );
-        ResourceCacheService.getInstance( ).removeKey( ResourceCacheService.getResourceTypesListCacheKey( ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName ) );
+        _cacheService.remove( ResourceCacheService.getResourceTypesListCacheKey( ) );
     }
 
     /**
      * Get a resource from its id and type
-     * 
+     *
      * @param strIdResource
      *            the id of the resource to get
      * @param strResourceTypeName
@@ -157,7 +144,7 @@ public class ResourceService
 
     /**
      * Get the list of resources of a given type
-     * 
+     *
      * @param strResourceTypeName
      *            the resource type
      * @return the list of resource of the given type, or an empty list if not resource was found
@@ -176,27 +163,19 @@ public class ResourceService
 
     /**
      * Get the resource provider of a resource type
-     * 
+     *
      * @param strResourceTypeName
      *            The resource provider of a resource type
      * @return The resource provider, or null if no provider was found for the given resource type
      */
     public IResourceProvider getResourceProvider( String strResourceTypeName )
     {
-        String strCacheKey = ResourceCacheService.getResourceTypeProviderCacheKey( strResourceTypeName );
-        IResourceProvider provider = (IResourceProvider) ResourceCacheService.getInstance( ).getFromCache( strCacheKey );
-
-        if ( provider != null )
-        {
-            return provider;
-        }
-
-        for ( IResourceProvider resourceProvider : SpringContextService.getBeansOfType( IResourceProvider.class ) )
+        // CDI providers are already @ApplicationScoped singletons, no need to cache them
+        // (CDI proxies cannot be serialized by EHCache)
+        for ( IResourceProvider resourceProvider : _providers )
         {
             if ( resourceProvider.isResourceTypeManaged( strResourceTypeName ) )
             {
-                ResourceCacheService.getInstance( ).putInCache( strCacheKey, resourceProvider );
-
                 return resourceProvider;
             }
         }

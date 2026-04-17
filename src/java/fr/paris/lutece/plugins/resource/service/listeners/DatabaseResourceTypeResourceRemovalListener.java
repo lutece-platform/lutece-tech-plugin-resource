@@ -37,12 +37,15 @@ import fr.paris.lutece.plugins.resource.business.database.DatabaseResource;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.util.List;
 import java.util.Locale;
 
 /**
  * Removal listener of resource types that check that the resource type is not associated with any resource
  */
+@ApplicationScoped
 public class DatabaseResourceTypeResourceRemovalListener implements IDatabaseResourceTypeRemovalListener
 {
     private static final String MESSAGE_ERROR_RESOURCE_TYPE_HAS_RESOURCE = "resource.removeResourceType.resourceTypeHasResource";

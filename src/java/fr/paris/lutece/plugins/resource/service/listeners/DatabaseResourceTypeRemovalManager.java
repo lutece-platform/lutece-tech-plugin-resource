@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.plugins.resource.service.listeners;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Locale;
 
@@ -52,7 +54,7 @@ public final class DatabaseResourceTypeRemovalManager
 
     /**
      * Check if a resource type can be removed
-     * 
+     *
      * @param strResourceType
      *            The resource type
      * @param locale
@@ -61,7 +63,9 @@ public final class DatabaseResourceTypeRemovalManager
      */
     public static String canResourceTypeBeRemoved( String strResourceType, Locale locale )
     {
-        for ( IDatabaseResourceTypeRemovalListener listener : SpringContextService.getBeansOfType( IDatabaseResourceTypeRemovalListener.class ) )
+        Instance<IDatabaseResourceTypeRemovalListener> listeners = CDI.current( ).select( IDatabaseResourceTypeRemovalListener.class, Any.Literal.INSTANCE );
+
+        for ( IDatabaseResourceTypeRemovalListener listener : listeners )
         {
             if ( !listener.canBeRemoved( strResourceType ) )
             {

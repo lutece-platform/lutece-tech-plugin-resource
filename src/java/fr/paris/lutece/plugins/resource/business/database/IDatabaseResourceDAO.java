@@ -123,7 +123,7 @@ public interface IDatabaseResourceDAO
 
     /**
      * Get the list of resources that have a given resource type
-     * 
+     *
      * @param strResourceType
      *            The resource type
      * @param plugin

@@ -1,3 +1,7 @@
+-- liquibase formatted sql
+-- changeset lutece-global-pom:create_db_resource.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+
 DROP TABLE IF EXISTS resource_resource;
 CREATE TABLE resource_resource
 (

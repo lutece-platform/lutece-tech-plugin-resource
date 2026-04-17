@@ -37,12 +37,17 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * DAO for database resources
  */
+@ApplicationScoped
+@Named( IDatabaseResourceDAO.BEAN_NAME )
 public class DatabaseResourceDAO implements IDatabaseResourceDAO
 {
     // Select

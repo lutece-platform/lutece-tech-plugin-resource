@@ -34,11 +34,18 @@
 package fr.paris.lutece.plugins.resource.service;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import javax.cache.CacheException;
 
 /**
  * Cache service for resources, resource types and resources providers
  */
-public final class ResourceCacheService extends AbstractCacheableService
+@ApplicationScoped
+public class ResourceCacheService extends AbstractCacheableService<String, Object>
 {
     private static final String CACHE_SERVICE_NAME = "resource.resourceCacheService";
     private static final String CACHE_KEY_RESOURCE_TYPE_PROVIDER = "resource.provider.resourceType.";
@@ -47,24 +54,68 @@ public final class ResourceCacheService extends AbstractCacheableService
     private static final String CACHE_KEY_RESOURCE_TYPE = "resource.resourceType.";
     private static final String CACHE_KEY_RESOURCE = "resource.resource.type.";
     private static final String CONSTANT_POINT = ".";
-    private static final ResourceCacheService _instance = new ResourceCacheService( );
 
-    /**
-     * Default constructor
-     */
-    private ResourceCacheService( )
+    @PostConstruct
+    public void init( )
     {
-        initCache( );
+        initCache( CACHE_SERVICE_NAME, String.class, Object.class );
     }
 
-    /**
-     * Get the instance of the service
-     * 
-     * @return The instance of the service
-     */
-    public static ResourceCacheService getInstance( )
+    @Override
+    public void put( String key, Object value )
     {
-        return _instance;
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                super.put( key, value );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache put error for key {}", key, e );
+            }
+        }
+    }
+
+    @Override
+    public Object get( String key )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                return super.get( key );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache get error for key {}", key, e );
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean remove( String key )
+    {
+        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        {
+            try
+            {
+                return super.remove( key );
+            }
+            catch( CacheException | IllegalStateException e )
+            {
+                AppLogService.error( "Cache remove error for key {}", key, e );
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isCacheAvailable( )
+    {
+        return _cache != null && !_cache.isClosed( );
     }
 
     /**

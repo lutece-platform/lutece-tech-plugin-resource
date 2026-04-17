@@ -47,16 +47,21 @@ import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
+
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Jsp Bean to manage resource types
  */
 @Controller( controllerJsp = "ManageResourceTypes.jsp", controllerPath = "jsp/admin/plugins/resource/", right = ResourceJspBean.RIGHT_MANAGE_RESOURCES )
+@SessionScoped
+@Named
 public class ResourceTypeJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = -5823475836167733365L;
@@ -97,6 +102,8 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
     private static final String TEMPLATE_MANAGE_RESOURCE_TYPE = "admin/plugins/resource/manage_resource_types.html";
     private static final String TEMPLATE_CREATE_RESOURCE_TYPE = "admin/plugins/resource/create_resource_type.html";
     private static final String TEMPLATE_MODIFY_RESOURCE_TYPE = "admin/plugins/resource/modify_resource_type.html";
+    @Inject
+    private Models _models;
     private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_ITEMS_PER_PAGE, 10 );
     private String _strCurrentPageIndex;
     private int _nItemsPerPage;
@@ -120,13 +127,11 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
         _resourceType = null;
 
-        Map<String, Object> model = getModel( );
+        _models.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
+        _models.put( MARK_PAGINATOR, paginator );
+        _models.put( MARK_LIST_RESOURCE_TYPES, paginator.getPageItems( ) );
 
-        model.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_LIST_RESOURCE_TYPES, paginator.getPageItems( ) );
-
-        return getPage( MESSAGE_RESOURCE_TYPE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCE_TYPE, model );
+        return getPage( MESSAGE_RESOURCE_TYPE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCE_TYPE, _models );
     }
 
     /**
@@ -139,15 +144,13 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
     @View( value = VIEW_CREATE_RESOURCE_TYPE )
     public String viewCreateResourceType( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel( );
-
         if ( _resourceType != null )
         {
-            model.put( MARK_RESOURCE_TYPE, _resourceType );
+            _models.put( MARK_RESOURCE_TYPE, _resourceType );
             _resourceType = null;
         }
 
-        return getPage( MESSAGE_CREATE_RESOURCE_TYPE_PAGE_TITLE, TEMPLATE_CREATE_RESOURCE_TYPE, model );
+        return getPage( MESSAGE_CREATE_RESOURCE_TYPE_PAGE_TITLE, TEMPLATE_CREATE_RESOURCE_TYPE, _models );
     }
 
     /**
@@ -186,8 +189,6 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
     @View( value = VIEW_MODIFY_RESOURCE_TYPE )
     public String viewModifyResourceType( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel( );
-
         DatabaseResourceType resourceType;
 
         if ( _resourceType != null )
@@ -207,9 +208,9 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
             resourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
         }
 
-        model.put( MARK_RESOURCE_TYPE, resourceType );
+        _models.put( MARK_RESOURCE_TYPE, resourceType );
 
-        return getPage( MESSAGE_MODIFY_RESOURCE_TYPE_PAGE_TITLE, TEMPLATE_MODIFY_RESOURCE_TYPE, model );
+        return getPage( MESSAGE_MODIFY_RESOURCE_TYPE_PAGE_TITLE, TEMPLATE_MODIFY_RESOURCE_TYPE, _models );
     }
 
     /**

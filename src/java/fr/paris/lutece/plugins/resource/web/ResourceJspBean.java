@@ -41,7 +41,6 @@ import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHo
 import fr.paris.lutece.plugins.resource.service.action.IResourceAction;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -54,18 +53,26 @@ import fr.paris.lutece.util.html.DelegatePaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
+
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Jsp Bean to manage resources
  */
 @Controller( controllerJsp = "ManageResources.jsp", controllerPath = "jsp/admin/plugins/resource/", right = ResourceJspBean.RIGHT_MANAGE_RESOURCES )
+@SessionScoped
+@Named
 public class ResourceJspBean extends MVCAdminJspBean
 {
     /**
@@ -115,6 +122,13 @@ public class ResourceJspBean extends MVCAdminJspBean
     private static final String TEMPLATE_MANAGE_RESOURCES = "admin/plugins/resource/manage_resources.html";
     private static final String TEMPLATE_CREATE_RESOURCE = "admin/plugins/resource/create_resource.html";
     private static final String TEMPLATE_MODIFY_RESOURCE = "admin/plugins/resource/modify_resource.html";
+
+    @Inject
+    @Any
+    private Instance<IResourceAction> _resourceActions;
+    @Inject
+    private Models _models;
+
     private String _strSort;
     private boolean _bSortAsc;
     private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_ITEMS_PER_PAGE, 10 );
@@ -173,17 +187,17 @@ public class ResourceJspBean extends MVCAdminJspBean
             refListItems.addItem( resourceType.getResourceTypeName( ), resourceType.getResourceTypeDescription( ) );
         }
 
-        Map<String, Object> model = new HashMap<>( );
+        List<IResourceAction> listActions = new ArrayList<>( );
+        _resourceActions.forEach( listActions::add );
 
-        model.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
-        model.put( MARK_PAGINATOR, paginatorItems );
-        model.put( MARK_LIST_RESOURCES, paginatorItems.getPageItems( ) );
-        model.put( MARK_REFERENCE_LIST_RESOURCE_TYPES, refListItems );
-        model.put( MARK_LIST_ACTIONS, SpringContextService.getBeansOfType( IResourceAction.class ) );
-        model.put( MARK_LOCALE, getLocale( ) );
-        fillCommons( model );
+        _models.put( MARK_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
+        _models.put( MARK_PAGINATOR, paginatorItems );
+        _models.put( MARK_LIST_RESOURCES, paginatorItems.getPageItems( ) );
+        _models.put( MARK_REFERENCE_LIST_RESOURCE_TYPES, refListItems );
+        _models.put( MARK_LIST_ACTIONS, listActions );
+        _models.put( MARK_LOCALE, getLocale( ) );
 
-        return getPage( MESSAGE_RESOURCE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCES, model );
+        return getPage( MESSAGE_RESOURCE_MANAGEMENT_PAGE_TITLE, TEMPLATE_MANAGE_RESOURCES, _models );
     }
 
     /**
@@ -205,13 +219,11 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         DatabaseResourceType databaseResourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
 
-        Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_RESOURCE_TYPE, databaseResourceType );
-        model.put( MARK_RESOURCE, _resource );
-        fillCommons( model );
+        _models.put( MARK_RESOURCE_TYPE, databaseResourceType );
+        _models.put( MARK_RESOURCE, _resource );
         _resource = null;
 
-        return getPage( MESSAGE_CREATE_RESOURCE_PAGE_TITLE, TEMPLATE_CREATE_RESOURCE, model );
+        return getPage( MESSAGE_CREATE_RESOURCE_PAGE_TITLE, TEMPLATE_CREATE_RESOURCE, _models );
     }
 
     /**
@@ -262,12 +274,10 @@ public class ResourceJspBean extends MVCAdminJspBean
         DatabaseResource databaseResource = ( _resource != null ) ? _resource : DatabaseResourceHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
         _resource = null;
 
-        Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_RESOURCE, databaseResource );
-        model.put( MARK_RESOURCE_TYPE, DatabaseResourceTypeHome.findByPrimaryKey( databaseResource.getResourceType( ) ) );
-        fillCommons( model );
+        _models.put( MARK_RESOURCE, databaseResource );
+        _models.put( MARK_RESOURCE_TYPE, DatabaseResourceTypeHome.findByPrimaryKey( databaseResource.getResourceType( ) ) );
 
-        return getPage( MESSAGE_MODIFY_RESOURCE_PAGE_TITLE, TEMPLATE_MODIFY_RESOURCE, model );
+        return getPage( MESSAGE_MODIFY_RESOURCE_PAGE_TITLE, TEMPLATE_MODIFY_RESOURCE, _models );
     }
 
     /**

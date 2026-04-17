@@ -1,9 +1,9 @@
-<jsp:useBean id="manageResources" scope="session" class="fr.paris.lutece.plugins.resource.web.ResourceJspBean" />
-<% String strContent = manageResources.processController ( request , response ); %>
-
 <%@ page errorPage="../../ErrorPage.jsp" %>
+
+${ pageContext.setAttribute( 'strContent', resourceJspBean.processController( pageContext.request , pageContext.response ) ) }
+
 <jsp:include page="../../AdminHeader.jsp" />
 
-<%= strContent %>
+${ pageContext.getAttribute( 'strContent' ) }
 
 <%@ include file="../../AdminFooter.jsp" %>
