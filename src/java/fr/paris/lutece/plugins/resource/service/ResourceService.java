@@ -71,7 +71,8 @@ public class ResourceService
 
         if ( listResourceTypes != null )
         {
-            return listResourceTypes;
+            // A copy: the cached list is shared by every reader when the cache returns its own instance
+            return new ArrayList<>( listResourceTypes );
         }
 
         listResourceTypes = new ArrayList<>( );
@@ -81,7 +82,7 @@ public class ResourceService
             listResourceTypes.addAll( provider.getResourceTypeList( ) );
         }
 
-        _cacheService.put( strCacheKey, listResourceTypes );
+        _cacheService.put( strCacheKey, new ArrayList<>( listResourceTypes ) );
 
         return listResourceTypes;
     }
