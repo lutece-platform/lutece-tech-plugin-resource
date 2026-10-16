@@ -39,8 +39,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.cache.CacheException;
-
 /**
  * Cache service for resources, resource types and resources providers
  */
@@ -61,61 +59,57 @@ public class ResourceCacheService extends AbstractCacheableService<String, Objec
         initCache( CACHE_SERVICE_NAME, String.class, Object.class );
     }
 
+    /**
+     * {@inheritDoc}. A provider failure is logged: the caller goes on without the cache
+     */
     @Override
     public void put( String key, Object value )
     {
-        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        try
         {
-            try
-            {
-                super.put( key, value );
-            }
-            catch( CacheException | IllegalStateException e )
-            {
-                AppLogService.error( "Cache put error for key {}", key, e );
-            }
+            super.put( key, value );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "Cache put error for key {}", key, e );
         }
     }
 
+    /**
+     * {@inheritDoc}. A provider failure is logged and read as a miss
+     */
     @Override
     public Object get( String key )
     {
-        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        try
         {
-            try
-            {
-                return super.get( key );
-            }
-            catch( CacheException | IllegalStateException e )
-            {
-                AppLogService.error( "Cache get error for key {}", key, e );
-            }
+            return super.get( key );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "Cache get error for key {}", key, e );
         }
 
         return null;
     }
 
+    /**
+     * {@inheritDoc}. No test of the status: a cache disabled on this instance still forwards the removal to the cache
+     * shared with the other instances (the core keeps it open for that)
+     */
     @Override
     public boolean remove( String key )
     {
-        if ( isCacheEnable( ) && isCacheAvailable( ) )
+        try
         {
-            try
-            {
-                return super.remove( key );
-            }
-            catch( CacheException | IllegalStateException e )
-            {
-                AppLogService.error( "Cache remove error for key {}", key, e );
-            }
+            return super.remove( key );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "Cache remove error for key {}", key, e );
         }
 
         return false;
-    }
-
-    private boolean isCacheAvailable( )
-    {
-        return _cache != null && !_cache.isClosed( );
     }
 
     /**
