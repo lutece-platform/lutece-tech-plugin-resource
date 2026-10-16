@@ -110,7 +110,11 @@ public final class DatabaseResourceHome
         if ( resource == null )
         {
             resource = _dao.findByPrimaryKey( nIdResource, _plugin );
-            _cacheService.put( strCacheKey, resource.clone( ) );
+            // An unknown or removed resource is not cached
+            if ( resource != null )
+            {
+                _cacheService.put( strCacheKey, resource.clone( ) );
+            }
         }
         else
         {
