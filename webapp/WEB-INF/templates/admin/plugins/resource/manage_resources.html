@@ -18,7 +18,7 @@
                         <@columns>
                             <@tform type='inline' align='right' action='jsp/admin/plugins/resource/ManageResources.jsp'>
                                 <@input type='hidden' name='view' value='viewCreateResource' />
-                                <@formGroup formStyle='inline' align='right' labelFor='resource_type' labelKey=''>
+                                <@formGroup formStyle='inline' align='right' labelFor='resource_type' labelKey='#i18n{resource.resourceManagement.labelResourceType}' hideLabel=['all']>
                                     <@inputGroup>
                                         <@select name='resource_type' items=refListResourceTypes default_value='' size='sm' />
                                         <@inputGroupItem>
@@ -33,19 +33,19 @@
                 <#if listResources?? && listResources?has_content>
                     <@table>
                         <tr>
-                            <th>
+                            <th scope="col">
                                 #i18n{resource.resourceManagement.labelId}
-                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='id_resource' />
+                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='id_resource' columnLabel='#i18n{resource.resourceManagement.labelId}' />
                             </th>
-                            <th>
+                            <th scope="col">
                                 #i18n{resource.resourceManagement.labelName}
-                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='resource_name' />
+                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='resource_name' columnLabel='#i18n{resource.resourceManagement.labelName}' />
                             </th>
-                            <th>
+                            <th scope="col">
                                 #i18n{resource.resourceManagement.labelResourceType}
-                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='resource_type' />
+                                <@sort jsp_url='jsp/admin/plugins/resource/ManageResources.jsp?view=viewManageResources' attribute='resource_type' columnLabel='#i18n{resource.resourceManagement.labelResourceType}' />
                             </th>
-                            <th>
+                            <th scope="col">
                                 #i18n{portal.util.labelActions}
                             </th>
                         </tr>
@@ -70,15 +70,15 @@
                                     </#if>
                                 </td>
                                 <td>
-                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource?url}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource?url}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' params={'aria-label': '#i18n{portal.util.labelModify} ' + (resource.resourceName)!''} />
                                     <#if list_actions??>
                                         <#list list_actions as action>
                                             <#if action.canActionBePerformed( resource.idResource, resource.resourceType )>
-                                                <@aButton href=safeUrl( action.getActionUrl( resource.idResource, resource.resourceType ) ) title='${action.getTitle(resource.idResource, resource.resourceType, locale)}' buttonIcon='${action.getIcon(resource.idResource, resource.resourceType)}' size='sm' />
+                                                <@aButton href=safeUrl( action.getActionUrl( resource.idResource, resource.resourceType ) ) title='${action.getTitle(resource.idResource, resource.resourceType, locale)}' buttonIcon='${action.getIcon(resource.idResource, resource.resourceType)}' size='sm' params={'aria-label': action.getTitle( resource.idResource, resource.resourceType, locale ) + ' ' + (resource.resourceName)!''} />
                                             </#if>
                                         </#list>
                                     </#if>
-                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource?url}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource?url}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' params={'aria-label': '#i18n{portal.util.labelDelete} ' + (resource.resourceName)!''} />
                                 </td>
                             </tr>
                         </#list>

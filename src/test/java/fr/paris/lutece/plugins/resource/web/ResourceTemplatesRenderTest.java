@@ -187,6 +187,7 @@ public class ResourceTemplatesRenderTest
         assertTrue( strHtml.contains( "href=\"#\"" ), strHtml );
         assertTrue( strHtml.contains( "href=\"jsp/admin/Action.jsp?id=12&amp;type=room\"" ), strHtml );
         assertFalse( strHtml.contains( "javascript:" ), strHtml );
+        assertTrue( strHtml.contains( "aria-label=\"#i18n{portal.util.labelDelete} name " + PAYLOAD_ESCAPED + "\"" ), strHtml );
     }
 
     /**
@@ -211,6 +212,7 @@ public class ResourceTemplatesRenderTest
         assertMessagesWrittenAsText( strHtml );
         assertTrue( strHtml.contains( "<td>description " + PAYLOAD_ESCAPED + "</td>" ), strHtml );
         assertTrue( strHtml.contains( "resourceTypeName=a%26b\"" ), strHtml );
+        assertTrue( strHtml.contains( "aria-label=\"#i18n{portal.util.labelDelete} a&amp;b\"" ), strHtml );
     }
 
     /**
