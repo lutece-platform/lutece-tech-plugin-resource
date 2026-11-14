@@ -219,6 +219,11 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         DatabaseResourceType databaseResourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
 
+        if ( databaseResourceType == null )
+        {
+            return redirectView( request, VIEW_MANAGE_RESOURCES );
+        }
+
         _models.put( MARK_RESOURCE_TYPE, databaseResourceType );
         _models.put( MARK_RESOURCE, _resource );
         _resource = null;
@@ -243,7 +248,8 @@ public class ResourceJspBean extends MVCAdminJspBean
         if ( !validateBean( resource, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
             _resource = resource;
-            redirectView( request, VIEW_CREATE_RESOURCE );
+
+            return redirectView( request, VIEW_CREATE_RESOURCE );
         }
 
         DatabaseResourceHome.create( resource );
@@ -274,6 +280,11 @@ public class ResourceJspBean extends MVCAdminJspBean
         DatabaseResource databaseResource = ( _resource != null ) ? _resource : DatabaseResourceHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
         _resource = null;
 
+        if ( databaseResource == null )
+        {
+            return redirectView( request, VIEW_MANAGE_RESOURCES );
+        }
+
         _models.put( MARK_RESOURCE, databaseResource );
         _models.put( MARK_RESOURCE_TYPE, DatabaseResourceTypeHome.findByPrimaryKey( databaseResource.getResourceType( ) ) );
 
@@ -290,7 +301,7 @@ public class ResourceJspBean extends MVCAdminJspBean
     @Action( value = ACTION_DO_MODIFY_RESOURCE )
     public String doModifyResource( HttpServletRequest request )
     {
-        String strIdResource = ( _resource != null ) ? _resource.getIdResource( ) : request.getParameter( PARAMETER_ID_RESOURCE );
+        String strIdResource = request.getParameter( PARAMETER_ID_RESOURCE );
 
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
@@ -299,12 +310,18 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         DatabaseResource resource = DatabaseResourceHome.findByPrimaryKey( Integer.parseInt( strIdResource ) );
 
+        if ( resource == null )
+        {
+            return redirectView( request, VIEW_MANAGE_RESOURCES );
+        }
+
         populate( resource, request );
 
         if ( !validateBean( resource, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
             _resource = resource;
-            redirectView( request, VIEW_MODIFY_RESOURCE );
+
+            return redirectView( request, VIEW_MODIFY_RESOURCE );
         }
 
         DatabaseResourceHome.update( resource );
@@ -329,7 +346,7 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
-            redirectView( request, VIEW_MANAGE_RESOURCES );
+            return redirectView( request, VIEW_MANAGE_RESOURCES );
         }
 
         UrlItem urlItem = new UrlItem( getActionUrl( ACTION_DO_REMOVE_RESOURCE ) );
@@ -353,7 +370,7 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
-            redirectView( request, VIEW_MANAGE_RESOURCES );
+            return redirectView( request, VIEW_MANAGE_RESOURCES );
         }
 
         int nIdResource = Integer.parseInt( strIdResource );
