@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.resource.web;
 
+import java.util.Locale;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,16 +42,18 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceType;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
 
 /**
- * ResourceTypeJspBean Test: a resource type created twice gives an error message
+ * ResourceTypeJspBean Test: a resource type created twice and an unknown resource type give an error message
  */
 public class ResourceTypeJspBeanTest extends LuteceTestCase
 {
+    private static final String MESSAGE_UNKNOWN_RESOURCE_TYPE = "resource.removeResourceType.unknownResourceType";
     private static final String DESCRIPTION = "ResourceTypeJspBeanTest";
 
     @Inject
@@ -86,6 +90,37 @@ public class ResourceTypeJspBeanTest extends LuteceTestCase
         assertNotNull( response.getRedirectLocation( ) );
         assertTrue( response.getRedirectLocation( ).contains( "view=viewCreateResourceType" ), response.getRedirectLocation( ) );
         assertEquals( DESCRIPTION, DatabaseResourceTypeHome.findByPrimaryKey( _strResourceTypeName ).getResourceTypeDescription( ) );
+    }
+
+    @Test
+    public void testConfirmRemoveOfAnUnknownResourceTypeShowsTheError( ) throws Exception
+    {
+        MockHttpServletRequest request = getUserRequest( "GET" );
+        request.addParameter( "view", "viewConfirmRemoveResourceType" );
+        request.addParameter( "resourceTypeName", _strResourceTypeName + "unknown" );
+        RedirectRecordingResponse response = new RedirectRecordingResponse( );
+
+        String strHtml = _bean.processController( request, response );
+
+        assertNull( response.getRedirectLocation( ) );
+        assertNotNull( strHtml );
+        assertTrue( strHtml.contains( I18nService.getLocalizedString( MESSAGE_UNKNOWN_RESOURCE_TYPE, Locale.FRENCH ) )
+                || strHtml.contains( I18nService.getLocalizedString( MESSAGE_UNKNOWN_RESOURCE_TYPE, Locale.ENGLISH ) ), strHtml );
+    }
+
+    @Test
+    public void testModifyViewOfAnUnknownResourceTypeShowsTheError( ) throws Exception
+    {
+        MockHttpServletRequest request = getUserRequest( "GET" );
+        request.addParameter( "view", "viewModifyResourceType" );
+        request.addParameter( "resourceTypeName", _strResourceTypeName + "unknown" );
+        RedirectRecordingResponse response = new RedirectRecordingResponse( );
+
+        String strHtml = _bean.processController( request, response );
+
+        assertNotNull( strHtml );
+        assertTrue( strHtml.contains( I18nService.getLocalizedString( MESSAGE_UNKNOWN_RESOURCE_TYPE, Locale.FRENCH ) )
+                || strHtml.contains( I18nService.getLocalizedString( MESSAGE_UNKNOWN_RESOURCE_TYPE, Locale.ENGLISH ) ), strHtml );
     }
 
     private MockHttpServletRequest getUserRequest( String strMethod )

@@ -208,13 +208,14 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         else
         {
             String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE_NAME );
+            resourceType = StringUtils.isEmpty( strResourceType ) ? null : DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
 
-            if ( StringUtils.isEmpty( strResourceType ) )
+            if ( resourceType == null )
             {
-                redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
-            }
+                addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
 
-            resourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
+                return getManageResourceType( request );
+            }
         }
 
         _models.put( MARK_RESOURCE_TYPE, resourceType );
@@ -264,7 +265,8 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         {
             addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
 
-            return redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
+            // the list is rendered by this view, so the error is displayed with it
+            return getManageResourceType( request );
         }
 
         DatabaseResourceType resourceType = DatabaseResourceTypeHome.findByPrimaryKey( strResourceType );
@@ -273,7 +275,8 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
         {
             addError( MESSAGE_UNKNOWN_RESOURCE_TYPE, getLocale( ) );
 
-            return redirectView( request, VIEW_MANAGE_RESOURCE_TYPE );
+            // the list is rendered by this view, so the error is displayed with it
+            return getManageResourceType( request );
         }
 
         UrlItem urlItem = new UrlItem( getActionUrl( ACTION_DO_REMOVE_RESOURCE_TYPE ) );
