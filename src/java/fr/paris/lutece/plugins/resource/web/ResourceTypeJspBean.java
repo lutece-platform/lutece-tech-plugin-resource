@@ -86,6 +86,7 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
     private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE = "resource.removeResourceType.confirmRemoveResourceType";
     private static final String MESSAGE_UNKNOWN_RESOURCE_TYPE = "resource.removeResourceType.unknownResourceType";
     private static final String MESSAGE_RESOURCE_TYPE_REMOVED = "resource.removeResourceType.resourceTypeRemoved";
+    private static final String MESSAGE_RESOURCE_TYPE_ALREADY_EXISTS = "resource.createResourceType.resourceTypeAlreadyExists";
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "resource.model.entity.databaseResourceType.attribute.";
 
     // Marks
@@ -168,6 +169,14 @@ public class ResourceTypeJspBean extends MVCAdminJspBean
 
         if ( !validateBean( resourceType, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
+            _resourceType = resourceType;
+
+            return redirectView( request, VIEW_CREATE_RESOURCE_TYPE );
+        }
+
+        if ( DatabaseResourceTypeHome.findByPrimaryKey( resourceType.getResourceTypeName( ) ) != null )
+        {
+            addError( MESSAGE_RESOURCE_TYPE_ALREADY_EXISTS, getLocale( ) );
             _resourceType = resourceType;
 
             return redirectView( request, VIEW_CREATE_RESOURCE_TYPE );
