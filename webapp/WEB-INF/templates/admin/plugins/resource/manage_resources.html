@@ -5,7 +5,7 @@
         <@pageHeader title='#i18n{resource.resourceManagement.pageTitle}' />
 
         <#if (infos!)?has_content>
-            <@alert color='info'><#list (infos![]) as info><div>${info.message}</div></#list></@alert>
+            <@alert color='info'><#list (infos![]) as info><div>${info}</div></#list></@alert>
         </#if>
         <#if (errors!)?has_content>
             <@alert color='danger'><#list (errors![]) as error><div>${error.message}</div></#list></@alert>
@@ -70,15 +70,15 @@
                                     </#if>
                                 </td>
                                 <td>
-                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewModifyResource&idResource=${resource.idResource?url}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
                                     <#if list_actions??>
                                         <#list list_actions as action>
                                             <#if action.canActionBePerformed( resource.idResource, resource.resourceType )>
-                                                <@aButton href='${action.getActionUrl( resource.idResource, resource.resourceType )}' title='${action.getTitle(resource.idResource, resource.resourceType, locale)}' buttonIcon='${action.getIcon(resource.idResource, resource.resourceType)}' size='sm' />
+                                                <@aButton href=safeUrl( action.getActionUrl( resource.idResource, resource.resourceType ) ) title='${action.getTitle(resource.idResource, resource.resourceType, locale)}' buttonIcon='${action.getIcon(resource.idResource, resource.resourceType)}' size='sm' />
                                             </#if>
                                         </#list>
                                     </#if>
-                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
+                                    <@aButton href='jsp/admin/plugins/resource/ManageResources.jsp?view=viewConfirmRemoveResource&idResource=${resource.idResource?url}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
                                 </td>
                             </tr>
                         </#list>
