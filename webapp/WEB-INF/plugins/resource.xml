@@ -24,7 +24,7 @@
     <!-- Administration interface parameters -->
     <admin-features>
     	<admin-feature>
-            <feature-id>RESOURCE_MANAGEMENT</feature-id>
+            <feature-id>RESOURCE_MANAGE_RESOURCES</feature-id>
             <feature-title>resource.resourceManagement.pageTitle</feature-title>
             <feature-description>resource.resourceManagement.description</feature-description>
             <feature-level>2</feature-level>
