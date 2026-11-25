@@ -39,6 +39,7 @@ import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceSort;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceType;
 import fr.paris.lutece.plugins.resource.business.database.DatabaseResourceTypeHome;
 import fr.paris.lutece.plugins.resource.service.action.IResourceAction;
+import fr.paris.lutece.plugins.resource.service.listeners.DatabaseResourceRemovalManager;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -370,6 +371,15 @@ public class ResourceJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isEmpty( strIdResource ) || !StringUtils.isNumeric( strIdResource ) )
         {
+            return redirectView( request, VIEW_MANAGE_RESOURCES );
+        }
+
+        // a resource still referenced (an appointment it is assigned to...) is not removed: its id would be given again to
+        // the next resource created, which would inherit the references
+        String strError = DatabaseResourceRemovalManager.canResourceBeRemoved( strIdResource, getLocale( ) );
+        if ( strError != null )
+        {
+            addError( strError );
             return redirectView( request, VIEW_MANAGE_RESOURCES );
         }
 
